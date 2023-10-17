@@ -12,6 +12,10 @@ export const postUser = async (req, res) => {
     return res.status(400).json({ error: "User ID is required" });
   }
 
+  if (!userName) {
+    return res.status(400).json({ error: 'Username is required' });
+  }
+
   try {
     const newUser = {
       userId: userid,

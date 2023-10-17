@@ -9,6 +9,10 @@ import HabitRoutes from "./routes/habits.js";
 import BetRoutes from "./routes/bets.js";
 import UserRoutes from "./routes/user.js"
 
+// 每日刷新
+import { setInterval } from "timers";
+import { resetDailyStatus } from "./utils/resetDailyStatus.js"; // 實現重置簽到狀態的邏輯
+
 import { env } from "./utils/env.js";
 
 const app = express()
@@ -42,6 +46,18 @@ const mongooseOptions = {
 mongoose
   .connect(env.MONGO_URL, mongooseOptions)
   .then(() => {
+    setInterval(() => {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      console.log(`Minute pass ${hours}: ${minutes}`);
+      // 檢查是否達到每日重置時間(時間可以自己改)，但是一天一次就好，多跑也是沒差啦
+      if (hours === 16 && minutes === 28) {
+        // 執行重置簽到狀態的邏輯
+        resetDailyStatus();
+      }
+    }, 60000); // 每分鐘檢查一次
+
     app.listen(env.PORT, () =>
       console.log(`Server running on port http://localhost:${env.PORT}`),
     );

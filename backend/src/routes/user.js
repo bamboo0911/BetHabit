@@ -34,7 +34,7 @@ router.post("/:userid", postUser);
  *       '200':
  *         description: Successfully create the user.
  *       '400':
- *         description: User ID is required.
+ *         description: Username or user ID is required.
  */
 
 export default router;
