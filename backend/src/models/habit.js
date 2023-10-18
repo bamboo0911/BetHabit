@@ -15,7 +15,7 @@ const HabitSchema = new mongoose.Schema(
       required: true,
     },
     userId: {
-      type: ObjectId,
+      type: String,
       required: true,
     },
     betId: {
