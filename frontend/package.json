@@ -24,7 +24,7 @@
     "react-flatpickr": "^3.10.13",
     "react-router-dom": "^6.11.2",
     "react-transition-group": "^4.4.5",
-    "sweetalert2": "^11.7.28",
+    "sweetalert2": "^11.6.13",
     "swr": "^2.2.1",
     "tailwind-scrollbar-hide": "^1.1.7"
   },
