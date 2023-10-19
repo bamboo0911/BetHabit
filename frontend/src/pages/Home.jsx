@@ -1,5 +1,5 @@
 import { useState } from "react";
-import HabitComponent from './HabitComponent';
+// import HabitComponent from './HabitComponent';
 import Layout from "../partials/Layout";
 import SetUpHabit from '../partials/Habits/Setuphabit.jsx';
 
@@ -7,6 +7,7 @@ import SetUpHabit from '../partials/Habits/Setuphabit.jsx';
 export default function Home() {
   const [habits, setHabits] = useState([]);
   const [showSetUpHabit, setShowSetUpHabit] = useState(false);
+
 
   const addNewHabit = () => {
     const newHabitComponent = <HabitComponent />;
