@@ -88,7 +88,7 @@ export const postHabit = async (req, res) => {
     res
       .status(200)
       .json({ habitId, betId, dueDate, status, habitTitle, stake, betPartner });
-  } catch (error) {
+  } catch (error){
     genericErrorHandler(error, res);
   }
 };
