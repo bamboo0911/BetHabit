@@ -40,7 +40,7 @@ export default function habitItem({ habitTitle, dueDate, habitId, status }) {
           <Button style={{ backgroundColor: "yellow" }}>Win</Button>
         )}
         {status === "lose" && (
-          <Button style={{ backgroundColor: "black" }}>Win</Button>
+          <Button style={{ backgroundColor: "black" }}>Lose</Button>
         )}
       </div>
     </>

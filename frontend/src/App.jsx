@@ -20,6 +20,7 @@ import "./charts/ChartjsConfig";
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
 import Habit from "./pages/Habit";
+import Home from "./pages/Home";
 // import Home from "./pages/Home";
 import NotFound from "./pages/404";
 import Table from "./pages/Table";
@@ -58,7 +59,7 @@ function App() {
           element={
             <>
               <SignedIn>
-                <Habit />
+                <Home />
               </SignedIn>
               <SignedOut>
                 <RedirectToSignIn />
