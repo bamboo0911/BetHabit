@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Button, Progress } from "@material-tailwind/react";
 import useDailyCheck from "../../hooks/habit/useDailyCheck";
 import useCloseHabit from "../../hooks/habit/useCloseHabit";
@@ -8,9 +9,16 @@ export default function habitItem({
   habitId,
   status,
   createDate,
+  openCloseHabitModal,
+  getResult,
+  getIsMutating,
 }) {
   const { trigger: dailyCheck } = useDailyCheck(habitId);
-  const { trigger: closeHabit } = useCloseHabit(habitId);
+  const {
+    result: returnResult,
+    trigger: closeHabit,
+    isMutating,
+  } = useCloseHabit(habitId);
 
   const handleCheck = async () => {
     await dailyCheck();
@@ -19,8 +27,16 @@ export default function habitItem({
 
   const handleCalculate = async () => {
     await closeHabit();
-    window.location.reload();
+    openCloseHabitModal();
   };
+
+  useEffect(() => {
+    getResult(returnResult);
+  }, [returnResult]);
+
+  useEffect(() => {
+    getIsMutating(isMutating);
+  }, [isMutating]);
 
   const caculateProgress = () => {
     const today = new Date();
@@ -71,7 +87,7 @@ export default function habitItem({
               <Button style={{ backgroundColor: "yellow" }}>Win</Button>
             )}
             {status === "lose" && (
-              <Button style={{ backgroundColor: "black" }}>Win</Button>
+              <Button style={{ backgroundColor: "black" }}>Lose</Button>
             )}
           </div>
         </div>

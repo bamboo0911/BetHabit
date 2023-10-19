@@ -4,6 +4,7 @@ import useHabit from "../hooks/habit/useHabits";
 import useAddUser from "../hooks/habit/useAddUser";
 import HabitItem from "../partials/Habits/habitItem";
 import CreateHabitModal from "../components/createHabitModal";
+import CloseHabitModal from "../components/closeHabitModal";
 
 export default function Habit() {
   // 新增user
@@ -15,11 +16,24 @@ export default function Habit() {
   // };
 
   const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
+  const [openCreateHabitModal, setOpenCreateHabitModal] = useState(false);
+  const [openCloseHabitModal, setOpenCloseHabitModal] = useState(false);
+  const handleOpenCreateHabitModal = () =>
+    setOpenCreateHabitModal(!openCreateHabitModal);
+  const handleOpenCloseHabitModal = () =>
+    setOpenCloseHabitModal(!openCloseHabitModal);
 
   const data = useHabit();
   useEffect(() => {}, [data]);
+
+  const [result, setResult] = useState({});
+  const getResult = (returnResult) => {
+    setResult(returnResult);
+  };
+  const [isMutating, setIsMutating] = useState(false);
+  const getIsMutating = (returnIsMutating) => {
+    setIsMutating(returnIsMutating);
+  };
 
   return (
     <>
@@ -59,7 +73,7 @@ export default function Habit() {
                 <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                   <button
                     className="btn bg-school hover:bg-orange-500 text-white duration-300"
-                    onClick={handleOpen}
+                    onClick={handleOpenCreateHabitModal}
                   >
                     <svg
                       className="w-4 h-4 fill-current opacity-50 shrink-0"
@@ -80,12 +94,24 @@ export default function Habit() {
                     dueDate={item.dueDate}
                     createDate={item.createAt}
                     status={item.status}
+                    openCloseHabitModal={handleOpenCloseHabitModal}
+                    getResult={getResult}
+                    getIsMutating={getIsMutating}
                     key={item.habitId}
                   />
                 ))}
               </div>
             </div>
-            <CreateHabitModal open={open} handleOpen={handleOpen} />
+            <CreateHabitModal
+              open={openCreateHabitModal}
+              handleOpen={handleOpenCreateHabitModal}
+            />
+            <CloseHabitModal
+              open={openCloseHabitModal}
+              handleOpen={handleOpenCloseHabitModal}
+              closedHabit={result}
+              isMutating={isMutating}
+            />
           </main>
         </div>
       </div>
