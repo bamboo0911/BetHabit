@@ -158,7 +158,7 @@ export const putWinStatus = async (req, res) => {
     habit.status = `${habitSuccess}`;
     await habit.save();
 
-    res.status(200).json({habitSuccess}, {message: `This habit is "${habit.status}"` });
+    res.status(200).json({message: `This habit is "${habit.status}"` });
   } catch (error) {
     genericErrorHandler(error, res);
   }
