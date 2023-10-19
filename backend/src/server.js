@@ -7,7 +7,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 
 import HabitRoutes from "./routes/habits.js";
 import BetRoutes from "./routes/bets.js";
-import UserRoutes from "./routes/user.js"
+import UserRoutes from "./routes/user.js";
 
 // 每日刷新
 import { setInterval } from "timers";
@@ -15,7 +15,8 @@ import { resetDailyStatus } from "./utils/resetDailyStatus.js"; // 實現重置�
 
 import { env } from "./utils/env.js";
 
-const app = express()
+const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -39,9 +40,9 @@ app.use("/api/user", UserRoutes);
 
 // Connect to MongoDB
 const mongooseOptions = {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-}
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
 
 mongoose
   .connect(env.MONGO_URL, mongooseOptions)
@@ -59,7 +60,7 @@ mongoose
     }, 60000); // 每分鐘檢查一次
 
     app.listen(env.PORT, () =>
-      console.log(`Server running on port http://localhost:${env.PORT}`),
+      console.log(`Server running on port http://localhost:${env.PORT}`)
     );
     // If the connection is successful, we will see this message in the console.
     console.log("Connected to MongoDB");
@@ -69,4 +70,3 @@ mongoose
     console.log("Failed to connect to MongoDB");
     console.log(error.message);
   });
-  

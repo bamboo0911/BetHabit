@@ -4,14 +4,17 @@ import useSWRMutation from "swr/mutation";
 async function sendRequest(url, { arg }) {
   return fetch(url, {
     method: "POST",
-    body: JSON.stringify(arg)
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(arg),
   }).then((res) => res.json());
 }
 
 export default (url) => {
-  const { trigger, isMutating } = useSWRMutation(
+  const { data, trigger, isMutating } = useSWRMutation(
     url,
     sendRequest /* options */
   );
-  return { trigger, isMutating };
+  return { data, trigger, isMutating };
 };

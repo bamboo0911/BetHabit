@@ -13,15 +13,21 @@ export const postUser = async (req, res) => {
   }
 
   if (!userName) {
-    return res.status(400).json({ error: 'Username is required' });
+    return res.status(400).json({ error: "Username is required" });
   }
 
   try {
+    // Check if user already exists
+    const existingUser = await UserSchema.findOne({ userId: userid });
+    if (existingUser) {
+      return res.status(400).json({ error: "User already exists" });
+    }
+
     const newUser = {
       userId: userid,
       userName: userName,
       lastLoginTime: new Date(),
-    }
+    };
 
     await UserSchema.create(newUser);
 
