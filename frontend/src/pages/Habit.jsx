@@ -5,6 +5,7 @@ import Flatpickr from "react-flatpickr";
 import useAddHabit from "../hooks/habit/useAddHabit";
 import useHabit from "../hooks/habit/useHabits";
 import useAddUser from "../hooks/habit/useAddUser";
+import HabitItem from "../partials/Habits/habitItem";
 
 export default function Habit() {
   const { user } = useUser();
@@ -104,11 +105,13 @@ export default function Habit() {
         <hr />
         <div>
           {data?.map((item) => (
-            <div key={item.id}>
-              <div>{item.habitTitle}</div>
-              <div>Due Date: {item.dueDate.slice(0, 10)}</div>
-              <Button>{item.status}</Button>
-            </div>
+            <HabitItem
+              habitId={item.habitId}
+              habitTitle={item.habitTitle}
+              dueDate={item.dueDate}
+              status={item.status}
+              key={item.habitId}
+            />
           ))}
         </div>
       </div>
