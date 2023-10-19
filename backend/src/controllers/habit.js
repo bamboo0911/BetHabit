@@ -145,24 +145,20 @@ export const putWinStatus = async (req, res) => {
       return res.status(404).json({ error: "Habit not found" });
     }
 
-    if (habit.status != "close") {
-      return res.status(400).json({ error: 'Habit status is not "close"' });
-    }
+    // 判斷勝負
+    let habitSuccess = "win";
+    const checkedValues = habit.dateCheck.map(item => item.checked);
 
-    let habitSuccess;
-    for (const date in habit.dateCheck) {
-      if (dateCheck[date] !== true) {
-        habitSuccess = false;
-        return;
+    for (const boo in checkedValues) {
+      if (boo === false) {
+        habitSuccess = "lose";
       }
-      habitSuccess = true;
-      return;
-    }
+    };
 
     habit.status = `${habitSuccess}`;
     await habit.save();
 
-    res.status(200).json({ message: `Habit ${habitSuccess ? "win" : "lose"}` });
+    res.status(200).json({habitSuccess}, {message: `This habit is "${habit.status}"` });
   } catch (error) {
     genericErrorHandler(error, res);
   }
