@@ -35,6 +35,7 @@ export const getHabit = async (req, res) => {
 export const postHabit = async (req, res) => {
   const { userid } = req.params;
   const { dueDate, habitTitle, stake, betPartner } = req.body;
+  console.log(req.body);
 
   if (!userid) {
     return res.status(400).json({ error: "User ID is required" });
@@ -77,7 +78,7 @@ export const postHabit = async (req, res) => {
       userId: userid,
       betId: betId,
       createAt: new Date(),
-      dueDate: new Date(`${dueDate}`),
+      dueDate: dueDate,
       status: "uncheck",
       dateCheck: dateList,
       habitTitle: habitTitle,

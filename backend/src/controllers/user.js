@@ -3,16 +3,31 @@ import mongoose from "mongoose";
 
 import { genericErrorHandler } from "../utils/errors.js";
 
-// POST /user/
+// POST /user/:userid
 export const postUser = async (req, res) => {
+  const { userid } = req.params;
   const { userName } = req.body;
 
+  if (!userid) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+
+  if (!userName) {
+    return res.status(400).json({ error: "Username is required" });
+  }
+
   try {
+    // Check if user already exists
+    const existingUser = await UserSchema.findOne({ userId: userid });
+    if (existingUser) {
+      return res.status(400).json({ error: "User already exists" });
+    }
+
     const newUser = {
-      userId: new mongoose.Types.ObjectId(),
+      userId: userid,
       userName: userName,
       lastLoginTime: new Date(),
-    }
+    };
 
     await UserSchema.create(newUser);
 

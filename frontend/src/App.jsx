@@ -19,7 +19,8 @@ import "./charts/ChartjsConfig";
 // Import pages
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
-import Home from "./pages/Home";
+import Habit from "./pages/Habit";
+// import Home from "./pages/Home";
 import NotFound from "./pages/404";
 import Table from "./pages/Table";
 import Form from "./pages/Form";
@@ -48,7 +49,21 @@ function App() {
   return (
     <ClerkProvider publishableKey={clerkPubKey}>
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route
+          exact
+          path="/"
+          element={
+            <>
+              <SignedIn>
+                <Habit />
+              </SignedIn>
+              <SignedOut>
+                <RedirectToSignIn />
+              </SignedOut>
+            </>
+          }
+        />
+        {/* <Route exact path="/" element={<Home />} /> */}
         <Route exact path="/zoo" element={<Navigate to="/zoo/chart" />} />
         <Route exact path="/zoo/chart" element={<Dashboard />} />
         <Route exact path="/zoo/table" element={<Table />} />

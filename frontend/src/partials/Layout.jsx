@@ -1,4 +1,3 @@
-import FooterWithSocialLinks from "./Footer";
 import Header from "./Header";
 
 export default function Layout({ children }) {
@@ -6,7 +5,6 @@ export default function Layout({ children }) {
     <div>
       <Header />
       {children}
-      <FooterWithSocialLinks />
     </div>
   );
 }

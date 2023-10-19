@@ -8,7 +8,7 @@ const BetSchema = new mongoose.Schema(
       required: true,
     },
     userId: {
-      type: ObjectId,
+      type: String,
       required: true,
     },
     stake: {

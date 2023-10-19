@@ -20,7 +20,7 @@ router.put("/closehabit/:habitid", putWinStatus);
 /**
  * @swagger
  * /api/habit/{userid}:
- *   put:
+ *   get:
  *     summary: Fetch all the habit of user => return in a list.
  *     parameters:
  *       - in: path
@@ -62,6 +62,12 @@ router.put("/closehabit/:habitid", putWinStatus);
  *                 type: string
  *                 format: date-time
  *               habitTitle:
+ *                 type: string
+ *               stake:
+ *                 type: integer
+ *                 format: int64
+ *                 minimum: 0
+ *               betPartner:
  *                 type: string
  *     responses:
  *       '200':
