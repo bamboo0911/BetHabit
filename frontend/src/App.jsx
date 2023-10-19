@@ -19,7 +19,8 @@ import "./charts/ChartjsConfig";
 // Import pages
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
-import Home from "./pages/Home";
+import Habit from "./pages/Habit";
+// import Home from "./pages/Home";
 import NotFound from "./pages/404";
 import Table from "./pages/Table";
 import Form from "./pages/Form";
@@ -29,6 +30,9 @@ import Modal from "./pages/MUI/Modal";
 import Pagination from "./pages/MUI/Pagination";
 import Carousel from "./pages/MUI/Carousel";
 import Hook from "./pages/Hook";
+// import Setupbet from "./partials/SetupHabits/Setupbet";
+// import Setuphabit from "./partials/SetupHabits/Setuphabit";
+
 
 if (!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
@@ -48,7 +52,21 @@ function App() {
   return (
     <ClerkProvider publishableKey={clerkPubKey}>
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route
+          exact
+          path="/"
+          element={
+            <>
+              <SignedIn>
+                <Habit />
+              </SignedIn>
+              <SignedOut>
+                <RedirectToSignIn />
+              </SignedOut>
+            </>
+          }
+        />
+        {/* <Route exact path="/" element={<Home />} /> */}
         <Route exact path="/zoo" element={<Navigate to="/zoo/chart" />} />
         <Route exact path="/zoo/chart" element={<Dashboard />} />
         <Route exact path="/zoo/table" element={<Table />} />
@@ -59,6 +77,8 @@ function App() {
         <Route exact path="/zoo/mui/pagination" element={<Pagination />} />
         <Route exact path="/zoo/mui/carousel" element={<Carousel />} />
         <Route exact path="/zoo/hook" element={<Hook />} />
+        {/* <Route exact path="/zoo/Setupbet" element={<Setupbet />} />
+        <Route exact path="/zoo/Setuphabit" element={<Setuphabit />} /> */}
         <Route
           path="/sign-in/*"
           element={<SignIn routing="path" path="/sign-in" />}
