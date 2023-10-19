@@ -22,7 +22,7 @@ export const getHabit = async (req, res) => {
 
     const userHabits = await HabitSchema.find(
       { userId: userid },
-      "habitId betId dueDate status habitTitle"
+      "habitId betId dueDate status habitTitle createAt"
     );
 
     res.status(200).json(userHabits);
