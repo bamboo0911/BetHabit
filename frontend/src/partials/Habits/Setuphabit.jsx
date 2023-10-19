@@ -196,7 +196,6 @@ export default function Setuphabit() {
           <div className="flex w-[537px] max-w-full items-start justify-between gap-5 mt-40 max-md:flex-wrap">
               <div className="justify-center items-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-stone-400 self-stretch flex w-[159px] max-w-full flex-col px-5 py-8 rounded-3xl border-2 border-solid border-[rgba(0,0,0,0.06)]">
               {/* Button: Return */}
-       
                 <button onClick={handleAddHabitAndSwitchToMain} className="justify-center text-white text-center text-2xl font-semibold leading-8 self-center w-[248px] -mt-px">
                     Return
                 </button>

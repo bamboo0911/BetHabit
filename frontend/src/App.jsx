@@ -59,7 +59,7 @@ function App() {
           element={
             <>
               <SignedIn>
-                <Home />
+                <Habit />
               </SignedIn>
               <SignedOut>
                 <RedirectToSignIn />

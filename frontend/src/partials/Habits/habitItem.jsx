@@ -6,14 +6,16 @@ export default function habitItem({ habitTitle, dueDate, habitId, status }) {
   const { trigger: dailyCheck } = useDailyCheck(habitId);
   const { trigger: closeHabit } = useCloseHabit(habitId);
 
+  
   const handleCheck = async () => {
     await dailyCheck();
     window.location.reload();
   };
 
   const handleCalculate = async () => {
-    await closeHabit();
-    window.location.reload();
+    const win_lose = await closeHabit();
+    console.log(win_lose);
+    //window.location.reload();
   };
 
   return (
@@ -31,7 +33,7 @@ export default function habitItem({ habitTitle, dueDate, habitId, status }) {
             Checked
           </Button>
         )}
-        {status === "close" && (
+        {status === "due" && (
           <Button style={{ backgroundColor: "red" }} onClick={handleCalculate}>
             Calculate
           </Button>
