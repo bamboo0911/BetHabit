@@ -1,8 +1,9 @@
+import { get } from "mongoose";
 import {
   getHabit,
   postHabit,
   putHabit,
-  putWinStatus,
+  getHabitStatus,
 } from "../controllers/habit.js";
 import express from "express";
 
@@ -14,8 +15,8 @@ router.get("/:userid", getHabit);
 router.post("/:userid", postHabit);
 // PUT /habit/dailycheck/:habitid
 router.put("/dailycheck/:habitid", putHabit);
-// PUT /habit/closehabit/:habitid
-router.put("/closehabit/:habitid", putWinStatus);
+// PUt /habit/getstatus/:habitid
+router.put("/getstatus/:habitid", getHabitStatus);
 
 /**
  * @swagger
@@ -107,7 +108,7 @@ router.put("/closehabit/:habitid", putWinStatus);
 
 /**
  * @swagger
- * /api/habit/closehabit/{habitid}:
+ * /api/habit/getstatus/{habitid}:
  *   put:
  *     summary: Calculate habid to win or lose.
  *     tags:

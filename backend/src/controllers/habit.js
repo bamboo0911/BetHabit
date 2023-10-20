@@ -130,8 +130,8 @@ export const putHabit = async (req, res) => {
   }
 };
 
-// PUT /habit/closehabit/:habitid
-export const putWinStatus = async (req, res) => {
+// PUT /habit/getstatus/:habitid
+export const getHabitStatus = async (req, res) => {
   const { habitid } = req.params;
 
   if (!habitid) {
@@ -145,31 +145,41 @@ export const putWinStatus = async (req, res) => {
       return res.status(404).json({ error: "Habit not found" });
     }
 
-    // 判斷勝負
-    let habitSuccess = "win";
-    const checkedValues = habit.dateCheck.map((item) => item.checked);
-    console.log(checkedValues);
+    if (habit.status === "close") {
+      // 判斷勝負
+      let habitSuccess = "win";
+      const checkedValues = habit.dateCheck.map((item) => item.checked);
+      console.log(checkedValues);
 
-    if (checkedValues.some((value) => value === false)) {
-      habitSuccess = "lose";
+      if (checkedValues.some((value) => value === false)) {
+        habitSuccess = "lose";
+      }
+
+      habit.status = `${habitSuccess}`;
+      await habit.save();
     }
 
-
-    habit.status = `${habitSuccess}`;
-    await habit.save();
+    const checkValues = habit.dateCheck.map((item) => item.checked);
+    const totalDay = checkValues.length;
+    const checkedDay = checkValues.filter((value) => value === true);
+    const finishedRate = checkedDay / totalDay;
 
     // 應該不會沒找到
     const user = await UserSchema.findOne({ userId: habit.userId });
     const theBet = await BetSchema.findOne({ betId: habit.betId });
 
-    const closedhabit = {
-      result: habitSuccess,
+    const targetHabit = {
+      habitTitle: habit.habitTitle,
+      status: habit.status,
+      createDate: habit.createAt,
+      dueDate: habit.dueDate,
+      finishedRate: finishedRate,
       userName: user.userName,
-      stake: theBet.stake,
       betPartner: theBet.betPartner,
+      stake: theBet.stake,
     };
 
-    res.status(200).json(closedhabit);
+    res.status(200).json(targetHabit);
   } catch (error) {
     genericErrorHandler(error, res);
   }
