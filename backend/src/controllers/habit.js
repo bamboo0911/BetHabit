@@ -154,6 +154,7 @@ export const putWinStatus = async (req, res) => {
       habitSuccess = "lose";
     }
 
+
     habit.status = `${habitSuccess}`;
     await habit.save();
 
