@@ -22,7 +22,7 @@ export const getHabit = async (req, res) => {
 
     const userHabits = await HabitSchema.find(
       { userId: userid },
-      "habitId betId dueDate status habitTitle"
+      "habitId betId dueDate status habitTitle createAt"
     );
 
     res.status(200).json(userHabits);
@@ -147,6 +147,7 @@ export const putWinStatus = async (req, res) => {
 
     // 判斷勝負
     let habitSuccess = "win";
+<<<<<<< HEAD
     const checkedValues = habit.dateCheck.map(item => item.checked);
 
     for (const boo in checkedValues) {
@@ -154,11 +155,34 @@ export const putWinStatus = async (req, res) => {
         habitSuccess = "lose";
       }
     };
+=======
+    const checkedValues = habit.dateCheck.map((item) => item.checked);
+    console.log(checkedValues);
+
+    if (checkedValues.some((value) => value === false)) {
+      habitSuccess = "lose";
+    }
+>>>>>>> origin/feature/combine
 
     habit.status = `${habitSuccess}`;
     await habit.save();
 
+<<<<<<< HEAD
     res.status(200).json({habitSuccess}, {message: `This habit is "${habit.status}"` });
+=======
+    // 應該不會沒找到
+    const user = await UserSchema.findOne({ userId: habit.userId });
+    const theBet = await BetSchema.findOne({ betId: habit.betId });
+
+    const closedhabit = {
+      result: habitSuccess,
+      userName: user.userName,
+      stake: theBet.stake,
+      betPartner: theBet.betPartner,
+    };
+
+    res.status(200).json(closedhabit);
+>>>>>>> origin/feature/combine
   } catch (error) {
     genericErrorHandler(error, res);
   }

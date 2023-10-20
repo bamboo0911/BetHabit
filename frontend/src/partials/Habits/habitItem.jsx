@@ -1,10 +1,24 @@
-import { Button } from "@material-tailwind/react";
+import { useEffect } from "react";
+import { Button, Progress } from "@material-tailwind/react";
 import useDailyCheck from "../../hooks/habit/useDailyCheck";
 import useCloseHabit from "../../hooks/habit/useCloseHabit";
 
-export default function habitItem({ habitTitle, dueDate, habitId, status }) {
+export default function habitItem({
+  habitTitle,
+  dueDate,
+  habitId,
+  status,
+  createDate,
+  openCloseHabitModal,
+  getResult,
+  getIsMutating,
+}) {
   const { trigger: dailyCheck } = useDailyCheck(habitId);
-  const { trigger: closeHabit } = useCloseHabit(habitId);
+  const {
+    result: returnResult,
+    trigger: closeHabit,
+    isMutating,
+  } = useCloseHabit(habitId);
 
   
   const handleCheck = async () => {
@@ -13,13 +27,40 @@ export default function habitItem({ habitTitle, dueDate, habitId, status }) {
   };
 
   const handleCalculate = async () => {
+<<<<<<< HEAD
     const win_lose = await closeHabit();
     console.log(win_lose);
     //window.location.reload();
+=======
+    await closeHabit();
+    openCloseHabitModal();
+  };
+
+  useEffect(() => {
+    getResult(returnResult);
+  }, [returnResult]);
+
+  useEffect(() => {
+    getIsMutating(isMutating);
+  }, [isMutating]);
+
+  const caculateProgress = () => {
+    const today = new Date();
+    const createDateObj = new Date(createDate.slice(0, 10));
+    const dueDateObj = new Date(dueDate.slice(0, 10));
+    const totalTime = Math.abs(dueDateObj - createDateObj);
+    const totalDays = Math.ceil(totalTime / (1000 * 60 * 60 * 24));
+    const passedTimes = Math.abs(today - createDateObj);
+    const passedDays = Math.ceil(passedTimes / (1000 * 60 * 60 * 24));
+    const progress = Math.floor((passedDays / totalDays) * 100);
+    const leftDays = totalDays - passedDays;
+    return [progress, leftDays];
+>>>>>>> origin/feature/combine
   };
 
   return (
     <>
+<<<<<<< HEAD
       <div key={habitId}>
         <div>Habit Title: {habitTitle}</div>
         <div>Due Date: {dueDate}</div>
@@ -44,6 +85,48 @@ export default function habitItem({ habitTitle, dueDate, habitId, status }) {
         {status === "lose" && (
           <Button style={{ backgroundColor: "black" }}>Lose</Button>
         )}
+=======
+      <div
+        key={habitId}
+        className="flex  flex-col col-span-full bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700 rounded-lg"
+      >
+        <div className="sm:flex sm:justify-between items-center p-4 sm:items-center">
+          <div>
+            <div className="text-1xl md:text-2xl mb-1">{habitTitle}</div>
+            <div className="mb-2">{caculateProgress()[1]} days left</div>
+            <Progress color="blue" value={caculateProgress()[0]} />
+          </div>
+          <div>
+            {status === "uncheck" && (
+              <Button
+                style={{ backgroundColor: "green" }}
+                onClick={handleCheck}
+              >
+                Check
+              </Button>
+            )}
+            {status === "checked" && (
+              <Button style={{ backgroundColor: "gray" }} onClick={handleCheck}>
+                Checked
+              </Button>
+            )}
+            {status === "close" && (
+              <Button
+                style={{ backgroundColor: "red" }}
+                onClick={handleCalculate}
+              >
+                Close
+              </Button>
+            )}
+            {status === "win" && (
+              <Button style={{ backgroundColor: "black" }}>Win</Button>
+            )}
+            {status === "lose" && (
+              <Button style={{ backgroundColor: "black" }}>Lose</Button>
+            )}
+          </div>
+        </div>
+>>>>>>> origin/feature/combine
       </div>
     </>
   );
