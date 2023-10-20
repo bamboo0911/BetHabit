@@ -145,24 +145,31 @@ export const putWinStatus = async (req, res) => {
       return res.status(404).json({ error: "Habit not found" });
     }
 
-    if (habit.status != "close") {
-      return res.status(400).json({ error: 'Habit status is not "close"' });
+    // 判斷勝負
+    let habitSuccess = "win";
+    const checkedValues = habit.dateCheck.map((item) => item.checked);
+    console.log(checkedValues);
+
+    if (checkedValues.some((value) => value === false)) {
+      habitSuccess = "lose";
     }
 
-    let habitSuccess;
-    for (const date in habit.dateCheck) {
-      if (dateCheck[date] !== true) {
-        habitSuccess = false;
-        return;
-      }
-      habitSuccess = true;
-      return;
-    }
 
     habit.status = `${habitSuccess}`;
     await habit.save();
 
-    res.status(200).json({ message: `Habit ${habitSuccess ? "win" : "lose"}` });
+    // 應該不會沒找到
+    const user = await UserSchema.findOne({ userId: habit.userId });
+    const theBet = await BetSchema.findOne({ betId: habit.betId });
+
+    const closedhabit = {
+      result: habitSuccess,
+      userName: user.userName,
+      stake: theBet.stake,
+      betPartner: theBet.betPartner,
+    };
+
+    res.status(200).json(closedhabit);
   } catch (error) {
     genericErrorHandler(error, res);
   }

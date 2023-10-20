@@ -13,6 +13,8 @@ router.post("/:userid", postUser);
  * /api/user/{userid}:
  *   post:
  *     summary: Create a user with userid, username.
+ *     tags:
+ *       - User
  *     parameters:
  *       - in: path
  *         name: userid

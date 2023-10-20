@@ -4,6 +4,7 @@ import useHabit from "../hooks/habit/useHabits";
 import useAddUser from "../hooks/habit/useAddUser";
 import HabitItem from "../partials/Habits/habitItem";
 import CreateHabitModal from "../components/createHabitModal";
+import CloseHabitModal from "../components/closeHabitModal";
 
 export default function Habit() {
   // 新增user
@@ -15,11 +16,24 @@ export default function Habit() {
   // };
 
   const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
+  const [openCreateHabitModal, setOpenCreateHabitModal] = useState(false);
+  const [openCloseHabitModal, setOpenCloseHabitModal] = useState(false);
+  const handleOpenCreateHabitModal = () =>
+    setOpenCreateHabitModal(!openCreateHabitModal);
+  const handleOpenCloseHabitModal = () =>
+    setOpenCloseHabitModal(!openCloseHabitModal);
 
   const data = useHabit();
   useEffect(() => {}, [data]);
+
+  const [result, setResult] = useState({});
+  const getResult = (returnResult) => {
+    setResult(returnResult);
+  };
+  const [isMutating, setIsMutating] = useState(false);
+  const getIsMutating = (returnIsMutating) => {
+    setIsMutating(returnIsMutating);
+  };
 
   return (
     <>
@@ -40,8 +54,9 @@ export default function Habit() {
           </header>
           <main>
             <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-              {/* Title: Date */}
-              <div className="relative p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
+              {/* Title */}
+              <div className="flex p-4 sm:p-6 rounded-sm overflow-hidden mb-8 justify-between">
+                {/* Date */}
                 <div className="relative">
                   <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-1">
                     Today
@@ -50,16 +65,11 @@ export default function Habit() {
                     {date.toLocaleDateString()}
                   </p>
                 </div>
-              </div>
-              {/* Subtitle */}
-              <div className="sm:flex sm:justify-between sm:items-center mb-8">
-                {/* Left: Habit Status */}
-                <p className="dark:text-indigo-200">Unchecked Habits</p>
-                {/* Right: Add button */}
-                <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
+                {/* Add button */}
+                <div className="grid grid-flow-col sm:auto-cols-max sm:justify-end gap-2">
                   <button
                     className="btn bg-school hover:bg-orange-500 text-white duration-300"
-                    onClick={handleOpen}
+                    onClick={handleOpenCreateHabitModal}
                   >
                     <svg
                       className="w-4 h-4 fill-current opacity-50 shrink-0"
@@ -71,21 +81,111 @@ export default function Habit() {
                   </button>
                 </div>
               </div>
-              {/* Habits */}
-              <div className="grid grid-cols-12 gap-6">
-                {data?.map((item) => (
-                  <HabitItem
-                    habitId={item.habitId}
-                    habitTitle={item.habitTitle}
-                    dueDate={item.dueDate}
-                    createDate={item.createAt}
-                    status={item.status}
-                    key={item.habitId}
-                  />
-                ))}
+              {/* Unchecked Habit */}
+              <div className="sm:flex sm:justify-start sm:items-center mb-4">
+                <p className="text-1xl md:text-2xl dark:text-indigo-200">
+                  Unchecked
+                </p>
+              </div>
+              <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/10 mb-5">
+                {data
+                  ?.filter((item) => item.status === "uncheck")
+                  .map((item) => (
+                    <HabitItem
+                      habitId={item.habitId}
+                      habitTitle={item.habitTitle}
+                      dueDate={item.dueDate}
+                      createDate={item.createAt}
+                      status={item.status}
+                      openCloseHabitModal={handleOpenCloseHabitModal}
+                      getResult={getResult}
+                      getIsMutating={getIsMutating}
+                      key={item.habitId}
+                    />
+                  ))}
+              </div>
+              {/* Checked Habit */}
+              <div className="sm:flex sm:justify-start sm:items-center mb-4">
+                <p className="text-1xl md:text-2xl dark:text-indigo-200">
+                  Checked
+                </p>
+              </div>
+              <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/10 mb-5">
+                {data
+                  ?.filter((item) => item.status === "checked")
+                  .map((item) => (
+                    <HabitItem
+                      habitId={item.habitId}
+                      habitTitle={item.habitTitle}
+                      dueDate={item.dueDate}
+                      createDate={item.createAt}
+                      status={item.status}
+                      openCloseHabitModal={handleOpenCloseHabitModal}
+                      getResult={getResult}
+                      getIsMutating={getIsMutating}
+                      key={item.habitId}
+                    />
+                  ))}
+              </div>
+              {/* To Close */}
+              <div className="sm:flex sm:justify-start sm:items-center mb-4">
+                <p className="text-1xl md:text-2xl dark:text-indigo-200">
+                  To Close
+                </p>
+              </div>
+              <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/10 mb-5">
+                {data
+                  ?.filter((item) => item.status === "close")
+                  .map((item) => (
+                    <HabitItem
+                      habitId={item.habitId}
+                      habitTitle={item.habitTitle}
+                      dueDate={item.dueDate}
+                      createDate={item.createAt}
+                      status={item.status}
+                      openCloseHabitModal={handleOpenCloseHabitModal}
+                      getResult={getResult}
+                      getIsMutating={getIsMutating}
+                      key={item.habitId}
+                    />
+                  ))}
+              </div>
+              {/* Closed Habit */}
+              <div className="sm:flex sm:justify-start sm:items-center mb-4">
+                <p className="text-1xl md:text-2xl dark:text-indigo-200">
+                  Closed
+                </p>
+              </div>
+              <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/10 mb-5">
+                {data
+                  ?.filter(
+                    (item) => item.status === "win" || item.status === "lose"
+                  )
+                  .map((item) => (
+                    <HabitItem
+                      habitId={item.habitId}
+                      habitTitle={item.habitTitle}
+                      dueDate={item.dueDate}
+                      createDate={item.createAt}
+                      status={item.status}
+                      openCloseHabitModal={handleOpenCloseHabitModal}
+                      getResult={getResult}
+                      getIsMutating={getIsMutating}
+                      key={item.habitId}
+                    />
+                  ))}
               </div>
             </div>
-            <CreateHabitModal open={open} handleOpen={handleOpen} />
+            <CreateHabitModal
+              open={openCreateHabitModal}
+              handleOpen={handleOpenCreateHabitModal}
+            />
+            <CloseHabitModal
+              open={openCloseHabitModal}
+              handleOpen={handleOpenCloseHabitModal}
+              closedHabit={result}
+              isMutating={isMutating}
+            />
           </main>
         </div>
       </div>

@@ -16,6 +16,8 @@ router.put("/:betid", putBet);
  * /api/bet/{userid}:
  *   post:
  *     summary: Create a new bet.
+ *     tags:
+ *       - Bet
  *     parameters:
  *       - in: path
  *         name: userid
@@ -36,6 +38,8 @@ router.put("/:betid", putBet);
  * /api/bet/{betid}:
  *   put:
  *     summary: Setup stake amount and bet title.
+ *     tags:
+ *       - Bet
  *     parameters:
  *       - in: path
  *         name: betid
