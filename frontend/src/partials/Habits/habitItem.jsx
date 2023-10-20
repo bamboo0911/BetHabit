@@ -53,12 +53,14 @@ export default function habitItem({
 
   return (
     <>
-      <div className="flex  flex-col col-span-full dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
+      <div
+        key={habitId}
+        className="flex  flex-col col-span-full bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700 rounded-lg"
+      >
         <div className="sm:flex sm:justify-between items-center p-4 sm:items-center">
-          <div key={habitId}>
-            <div>Habit Title: {habitTitle}</div>
-            <div>Left Days: {caculateProgress()[1]}</div>
-            <div>Due Date: {dueDate.slice(0, 10)}</div>
+          <div>
+            <div className="text-1xl md:text-2xl mb-1">{habitTitle}</div>
+            <div className="mb-2">{caculateProgress()[1]} days left</div>
             <Progress color="blue" value={caculateProgress()[0]} />
           </div>
           <div>
@@ -80,11 +82,11 @@ export default function habitItem({
                 style={{ backgroundColor: "red" }}
                 onClick={handleCalculate}
               >
-                Calculate
+                Close
               </Button>
             )}
             {status === "win" && (
-              <Button style={{ backgroundColor: "yellow" }}>Win</Button>
+              <Button style={{ backgroundColor: "black" }}>Win</Button>
             )}
             {status === "lose" && (
               <Button style={{ backgroundColor: "black" }}>Lose</Button>
