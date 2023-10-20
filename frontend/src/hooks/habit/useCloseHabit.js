@@ -5,5 +5,5 @@ export default (habitId) => {
 
   const { data, trigger, isMutating } = useSWRPut(apiUrl); // 發送 PUT 請求
 
-  return { result: data && data.message, trigger, isMutating };
+  return { result: data && data, trigger, isMutating };
 };
