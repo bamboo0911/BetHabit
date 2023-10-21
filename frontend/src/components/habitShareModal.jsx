@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Button,
   Dialog,
@@ -7,6 +7,9 @@ import {
   CardFooter,
   Typography,
 } from "@material-tailwind/react";
+
+import FooterWithSocialLinks from "./shareFooter";
+
 
 export default function DialogWithForm({
   open,
@@ -18,6 +21,9 @@ export default function DialogWithForm({
   const [loser, setLoser] = useState("");
   const [stake, setStake] = useState(0);
 
+  const [isImage, setIsImage] = useState(false);
+
+
   useEffect(() => {
     if (sharedHabit && Object.keys(sharedHabit).length !== 0 && open) {
       sharedHabit.result === "win"
@@ -26,8 +32,9 @@ export default function DialogWithForm({
       setStake(sharedHabit.stake);
     }
   }, [sharedHabit]);
+
   return (
-    <>
+    <div>
       <Dialog
         size="xs"
         open={open}
@@ -35,25 +42,30 @@ export default function DialogWithForm({
         className="bg-transparent shadow-none"
         isLoaded={isMutating && !sharedHabit}
       >
+        
         {sharedHabit && (
           <Card className="mx-auto w-full max-w-[24rem]">
-            <CardBody className="flex flex-col gap-4">
+            <CardBody id="habitShare" className="flex flex-col gap-4">
               <Typography variant="h4" color="blue-gray">
                 Who won?
               </Typography>
-              <Typography className="-mb-2" variant="h6">
-                Winner: {winner}
-              </Typography>
-              <Typography className="-mb-2" variant="h6">
-                Loser: {loser}
-              </Typography>
-              <Typography
-                className="mb-3 font-normal"
-                variant="paragraph"
-                color="gray"
-              >
-                {winner} won {stake} SaySayCoin from {loser}!
-              </Typography>
+              {!isImage && (
+                <>
+                  <Typography className="-mb-2" variant="h6">
+                    Winner: {winner}
+                  </Typography>
+                  <Typography className="-mb-2" variant="h6">
+                    Loser: {loser}
+                  </Typography>
+                  <Typography
+                    className="mb-3 font-normal"
+                    variant="paragraph"
+                    color="gray"
+                  >
+                  {winner} won {stake} SaySayCoin from {loser}!
+                  </Typography>
+                </>
+              )}
             </CardBody>
             <CardFooter className="pt-0">
               <Button variant="gradient" fullWidth onClick={handleOpen}>
@@ -62,9 +74,14 @@ export default function DialogWithForm({
                   : `${sharedHabit.userName} is definitely a SaySayMonster`}
               </Button>
             </CardFooter>
+
+            <FooterWithSocialLinks
+              setIsImage={setIsImage}
+            />
+
           </Card>
         )}
       </Dialog>
-    </>
+    </div>
   );
 }

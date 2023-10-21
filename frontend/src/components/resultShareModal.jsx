@@ -58,11 +58,13 @@ export default function DialogWithForm({
               </Typography>
             </CardBody>
             <CardFooter className="pt-0">
+              
               <Button variant="gradient" fullWidth onClick={handleOpen}>
                 {sharedHabit.result === "win"
                   ? `${sharedHabit.userName} is no longer a SaySayMonster`
                   : `${sharedHabit.userName} is definitely a SaySayMonster`}
               </Button>
+  
             </CardFooter>
           </Card>
         )}
