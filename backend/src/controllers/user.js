@@ -27,11 +27,35 @@ export const postUser = async (req, res) => {
       userId: userid,
       userName: userName,
       lastLoginTime: new Date(),
+      saysayPoint: 200,
     };
 
     await UserSchema.create(newUser);
 
     res.status(200).json(newUser);
+  } catch (error) {
+    genericErrorHandler(error, res);
+  }
+};
+
+// GET /user/:userid
+export const getUser = async (req, res) => {
+  const { userid } = req.params;
+
+  if (!userid) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+
+  try {
+    const user = await UserSchema.findOne({ userId: userid });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found"});
+    }
+
+    const userData = {userName: user.userName, saysayPoint: user.saysayPoint};
+
+    res.status(200).json(userData);
   } catch (error) {
     genericErrorHandler(error, res);
   }
