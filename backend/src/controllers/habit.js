@@ -169,6 +169,15 @@ export const putWinStatus = async (req, res) => {
       betPartner: theBet.betPartner,
     };
 
+    if (user.saysayPoint) {
+      // 計算贏多少錢
+      const moneyChange = (habitSuccess === "win")?theBet.stake:theBet.stake*-1;
+
+      user.saysayPoint = user.saysayPoint + moneyChange;
+
+      user.save();
+    };
+
     res.status(200).json(closedhabit);
   } catch (error) {
     genericErrorHandler(error, res);
