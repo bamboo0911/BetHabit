@@ -21,7 +21,7 @@ import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
 import Habit from "./pages/Habit";
 import Home from "./pages/Home";
-// import Home from "./pages/Home";
+import Home from "./pages/Home";
 import NotFound from "./pages/404";
 import Table from "./pages/Table";
 import Form from "./pages/Form";
@@ -33,7 +33,6 @@ import Carousel from "./pages/MUI/Carousel";
 import Hook from "./pages/Hook";
 // import Setupbet from "./partials/SetupHabits/Setupbet";
 // import Setuphabit from "./partials/SetupHabits/Setuphabit";
-
 
 if (!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
@@ -67,7 +66,7 @@ function App() {
             </>
           }
         />
-        {/* <Route exact path="/" element={<Home />} /> */}
+        <Route exact path="/home" element={<Home />} />
         <Route exact path="/zoo" element={<Navigate to="/zoo/chart" />} />
         <Route exact path="/zoo/chart" element={<Dashboard />} />
         <Route exact path="/zoo/table" element={<Table />} />

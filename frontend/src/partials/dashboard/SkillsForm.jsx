@@ -8,20 +8,20 @@ function SkillsForm() {
     backend: 0,
     "business analysis": 0,
     "design thinking": 0,
-    frontend: 0
+    frontend: 0,
   });
   const postForm = usePostSkills();
 
   const handleSelectChange = (skill, value) => {
     setSkills({
       ...skills,
-      [skill]: value
+      [skill]: value,
     });
   };
 
   return (
     // here is layout
-    <div className="flex flex-col col-span-12 sm:col-span-6 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+    <div className="flex flex-col col-span-12 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
       <form
         className="p-6 px-8"
         onSubmit={(e) => {

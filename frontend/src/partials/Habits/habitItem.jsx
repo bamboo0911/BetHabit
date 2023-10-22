@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Button, Progress } from "@material-tailwind/react";
 import useDailyCheck from "../../hooks/habit/useDailyCheck";
-import useCloseHabit from "../../hooks/habit/useCloseHabit";
+import useGetStatus from "../../hooks/habit/useHabitStatus";
 
 export default function habitItem({
   habitTitle,
@@ -10,15 +10,17 @@ export default function habitItem({
   status,
   createDate,
   openCloseHabitModal,
+  openResultShareModal,
+  openHabitShareModal,
   getResult,
   getIsMutating,
 }) {
   const { trigger: dailyCheck } = useDailyCheck(habitId);
   const {
     result: returnResult,
-    trigger: closeHabit,
+    trigger: getStatus,
     isMutating,
-  } = useCloseHabit(habitId);
+  } = useGetStatus(habitId);
 
   
   const handleCheck = async () => {
@@ -27,8 +29,18 @@ export default function habitItem({
   };
 
   const handleCalculate = async () => {
-    await closeHabit();
+    await getStatus();
     openCloseHabitModal();
+  };
+
+  const handleShareResult = async () => {
+    await getStatus();
+    openResultShareModal();
+  };
+
+  const handleShareHabit = async () => {
+    await getStatus();
+    openHabitShareModal();
   };
 
   useEffect(() => {
@@ -66,17 +78,31 @@ export default function habitItem({
           </div>
           <div>
             {status === "uncheck" && (
-              <Button
-                style={{ backgroundColor: "green" }}
-                onClick={handleCheck}
-              >
-                Check
-              </Button>
+              <>
+                <Button
+                  style={{ backgroundColor: "pink" }}
+                  onClick={handleShareHabit}
+                >
+                  Share Habit
+                </Button>
+                <Button
+                  style={{ backgroundColor: "green" }}
+                  onClick={handleCheck}
+                >
+                  Check
+                </Button>
+              </>
             )}
             {status === "checked" && (
-              <Button style={{ backgroundColor: "gray" }} onClick={handleCheck}>
-                Checked
-              </Button>
+              <>
+                <Button
+                  style={{ backgroundColor: "pink" }}
+                  onClick={handleShareHabit}
+                >
+                  Share Habit
+                </Button>
+                <Button style={{ backgroundColor: "gray" }}>Checked</Button>
+              </>
             )}
             {status === "close" && (
               <Button
@@ -87,10 +113,26 @@ export default function habitItem({
               </Button>
             )}
             {status === "win" && (
-              <Button style={{ backgroundColor: "black" }}>Win</Button>
+              <>
+                <Button
+                  style={{ backgroundColor: "pink" }}
+                  onClick={handleShareResult}
+                >
+                  Share Result
+                </Button>
+                <Button style={{ backgroundColor: "black" }}>Win</Button>
+              </>
             )}
             {status === "lose" && (
-              <Button style={{ backgroundColor: "black" }}>Lose</Button>
+              <>
+                <Button
+                  style={{ backgroundColor: "pink" }}
+                  onClick={handleShareResult}
+                >
+                  Share Result
+                </Button>
+                <Button style={{ backgroundColor: "black" }}>Lose</Button>
+              </>
             )}
           </div>
         </div>
