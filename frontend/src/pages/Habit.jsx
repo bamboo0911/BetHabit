@@ -5,6 +5,8 @@ import useAddUser from "../hooks/habit/useAddUser";
 import HabitItem from "../partials/Habits/habitItem";
 import CreateHabitModal from "../components/createHabitModal";
 import CloseHabitModal from "../components/closeHabitModal";
+import ResultShareModal from "../components/resultShareModal";
+import HabitShareModal from "../components/habitShareModal";
 
 export default function Habit() {
   // 新增user
@@ -18,10 +20,20 @@ export default function Habit() {
   const [date, setDate] = useState(new Date());
   const [openCreateHabitModal, setOpenCreateHabitModal] = useState(false);
   const [openCloseHabitModal, setOpenCloseHabitModal] = useState(false);
+  const [openResultShareModal, setOpenResultShareModal] = useState(false);
+  const [openHabitShareModal, setOpenHabitShareModal] = useState(false);
+
   const handleOpenCreateHabitModal = () =>
     setOpenCreateHabitModal(!openCreateHabitModal);
+
   const handleOpenCloseHabitModal = () =>
     setOpenCloseHabitModal(!openCloseHabitModal);
+
+  const handleOpenResultShareModal = () =>
+    setOpenResultShareModal(!openResultShareModal);
+
+  const handleOpenHabitShareModal = () =>
+    setOpenHabitShareModal(!openHabitShareModal);
 
   const data = useHabit();
   useEffect(() => {}, [data]);
@@ -98,6 +110,8 @@ export default function Habit() {
                       createDate={item.createAt}
                       status={item.status}
                       openCloseHabitModal={handleOpenCloseHabitModal}
+                      openResultShareModal={handleOpenResultShareModal}
+                      openHabitShareModal={handleOpenHabitShareModal}
                       getResult={getResult}
                       getIsMutating={getIsMutating}
                       key={item.habitId}
@@ -121,6 +135,8 @@ export default function Habit() {
                       createDate={item.createAt}
                       status={item.status}
                       openCloseHabitModal={handleOpenCloseHabitModal}
+                      openResultShareModal={handleOpenResultShareModal}
+                      openHabitShareModal={handleOpenHabitShareModal}
                       getResult={getResult}
                       getIsMutating={getIsMutating}
                       key={item.habitId}
@@ -144,6 +160,8 @@ export default function Habit() {
                       createDate={item.createAt}
                       status={item.status}
                       openCloseHabitModal={handleOpenCloseHabitModal}
+                      openResultShareModal={handleOpenResultShareModal}
+                      openHabitShareModal={handleOpenHabitShareModal}
                       getResult={getResult}
                       getIsMutating={getIsMutating}
                       key={item.habitId}
@@ -169,6 +187,8 @@ export default function Habit() {
                       createDate={item.createAt}
                       status={item.status}
                       openCloseHabitModal={handleOpenCloseHabitModal}
+                      openResultShareModal={handleOpenResultShareModal}
+                      openHabitShareModal={handleOpenHabitShareModal}
                       getResult={getResult}
                       getIsMutating={getIsMutating}
                       key={item.habitId}
@@ -184,6 +204,18 @@ export default function Habit() {
               open={openCloseHabitModal}
               handleOpen={handleOpenCloseHabitModal}
               closedHabit={result}
+              isMutating={isMutating}
+            />
+            <ResultShareModal
+              open={openResultShareModal}
+              handleOpen={handleOpenResultShareModal}
+              sharedHabit={result}
+              isMutating={isMutating}
+            />
+            <HabitShareModal
+              open={openHabitShareModal}
+              handleOpen={handleOpenHabitShareModal}
+              sharedHabit={result}
               isMutating={isMutating}
             />
           </main>

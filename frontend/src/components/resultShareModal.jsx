@@ -11,26 +11,23 @@ import {
 export default function DialogWithForm({
   open,
   handleOpen,
-  closedHabit,
+  sharedHabit,
   isMutating,
 }) {
   const [winner, setWinner] = useState("");
   const [loser, setLoser] = useState("");
   const [stake, setStake] = useState(0);
+  const [finishedRate, setFinishedRate] = useState(0);
 
   useEffect(() => {
-    if (closedHabit && Object.keys(closedHabit).length !== 0 && !open)
-      window.location.reload();
-  }, [open]);
-
-  useEffect(() => {
-    if (closedHabit && Object.keys(closedHabit).length !== 0 && open) {
-      closedHabit.status === "win"
-        ? (setWinner(closedHabit.userName), setLoser(closedHabit.betPartner))
-        : (setWinner(closedHabit.betPartner), setLoser(closedHabit.userName));
-      setStake(closedHabit.stake);
+    if (sharedHabit && Object.keys(sharedHabit).length !== 0 && open) {
+      sharedHabit.result === "win"
+        ? (setWinner(sharedHabit.userName), setLoser(sharedHabit.betPartner))
+        : (setWinner(sharedHabit.betPartner), setLoser(sharedHabit.userName));
+      setStake(sharedHabit.stake);
+      console.log(sharedHabit.finishedRate);
     }
-  }, [closedHabit]);
+  }, [sharedHabit]);
   return (
     <>
       <Dialog
@@ -38,9 +35,9 @@ export default function DialogWithForm({
         open={open}
         handler={handleOpen}
         className="bg-transparent shadow-none"
-        isLoaded={isMutating && !closedHabit}
+        isLoaded={isMutating && !sharedHabit}
       >
-        {closedHabit && (
+        {sharedHabit && (
           <Card className="mx-auto w-full max-w-[24rem]">
             <CardBody className="flex flex-col gap-4">
               <Typography variant="h4" color="blue-gray">
@@ -62,9 +59,9 @@ export default function DialogWithForm({
             </CardBody>
             <CardFooter className="pt-0">
               <Button variant="gradient" fullWidth onClick={handleOpen}>
-                {closedHabit.status === "win"
-                  ? `${closedHabit.userName} is no longer a SaySayMonster`
-                  : `${closedHabit.userName} is definitely a SaySayMonster`}
+                {sharedHabit.result === "win"
+                  ? `${sharedHabit.userName} is no longer a SaySayMonster`
+                  : `${sharedHabit.userName} is definitely a SaySayMonster`}
               </Button>
             </CardFooter>
           </Card>
