@@ -27,11 +27,6 @@ export default function habitItem({
   };
 
   const handleCalculate = async () => {
-<<<<<<< HEAD
-    const win_lose = await closeHabit();
-    console.log(win_lose);
-    //window.location.reload();
-=======
     await closeHabit();
     openCloseHabitModal();
   };
@@ -55,37 +50,10 @@ export default function habitItem({
     const progress = Math.floor((passedDays / totalDays) * 100);
     const leftDays = totalDays - passedDays;
     return [progress, leftDays];
->>>>>>> origin/feature/combine
   };
 
   return (
     <>
-<<<<<<< HEAD
-      <div key={habitId}>
-        <div>Habit Title: {habitTitle}</div>
-        <div>Due Date: {dueDate}</div>
-        {status === "uncheck" && (
-          <Button style={{ backgroundColor: "green" }} onClick={handleCheck}>
-            Check
-          </Button>
-        )}
-        {status === "checked" && (
-          <Button style={{ backgroundColor: "gray" }} onClick={handleCheck}>
-            Checked
-          </Button>
-        )}
-        {status === "due" && (
-          <Button style={{ backgroundColor: "red" }} onClick={handleCalculate}>
-            Calculate
-          </Button>
-        )}
-        {status === "win" && (
-          <Button style={{ backgroundColor: "yellow" }}>Win</Button>
-        )}
-        {status === "lose" && (
-          <Button style={{ backgroundColor: "black" }}>Lose</Button>
-        )}
-=======
       <div
         key={habitId}
         className="flex  flex-col col-span-full bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700 rounded-lg"
@@ -126,7 +94,6 @@ export default function habitItem({
             )}
           </div>
         </div>
->>>>>>> origin/feature/combine
       </div>
     </>
   );
