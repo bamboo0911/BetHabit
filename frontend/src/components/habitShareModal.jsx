@@ -50,7 +50,7 @@ export default function DialogWithForm({
         
         {sharedHabit && (
           <Card className="mx-auto w-full max-w-[24rem]">
-            <CardBody id="habitShare" className="flex flex-col gap-4">
+            <CardBody id="" className="flex flex-col gap-4">
               <Typography variant="h4" color="blue-gray">
                 Who won?
               </Typography>
@@ -83,7 +83,6 @@ export default function DialogWithForm({
             <FooterWithSocialLinks
               setIsImage={setIsImage}
             />
-
           </Card>
         )}
       </Dialog>

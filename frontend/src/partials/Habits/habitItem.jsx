@@ -22,6 +22,7 @@ export default function habitItem({
     isMutating,
   } = useGetStatus(habitId);
 
+  
   const handleCheck = async () => {
     await dailyCheck();
     window.location.reload();

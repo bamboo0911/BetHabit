@@ -1,20 +1,70 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useUser } from "@clerk/clerk-react";
+import { Input, Button } from "@material-tailwind/react";
+import Flatpickr from "react-flatpickr";
+import useAddHabit from '../../hooks/habit/useAddHabit';
+import useHabit from '../../hooks/habit/useHabits';
+import useAddUser from '../../hooks/habit/useAddUser';
+import habitItem from './habitItem';
+import Home from '../../pages/Home';
+
 export default function Setuphabit() {
-    const [habitTitle, setHabitTitle] = useState('');
-    const [dueDate, setDueDate] = useState('');
-    const [stake, setStake] = useState(''); 
-    const [betPartner, setBetPartner] = useState(''); 
+  const [currentContent, setCurrentContent] = useState("habit");
 
-    const [currentContent, setCurrentContent] = useState("habit");
+  const handleAddUser = async () => {
+    await addUser({ userName });
+    setUserName("");
+  };
 
-    const switchToBet = () => {
+  const [habitTitle, setHabitTitle] = useState("");
+  const [dueDate, setDueDate] = useState({});
+  const [stake, setStake] = useState(0);
+  const [betPartner, setBetPartner] = useState("");
+
+  const { trigger: addHabit } = useAddHabit();
+
+  const handleAddHabit = async () => {
+    const stakeInt = parseInt(stake, 10);
+    await addHabit({
+      dueDate: new Date(dueDate),
+      habitTitle,
+      stake: stakeInt,
+      betPartner,
+    });
+    setHabitTitle("");
+    setDueDate({});
+    setStake("");
+    setBetPartner("");
+  };
+
+  const switchToBet = () => {
     setCurrentContent("bet");
-    };
-    const returntohabit = () => {
-        setCurrentContent("habit");
-        };
+  };
+
+  const handleAddHabitAndSwitchToBet = async () => {
+    await handleAddHabit(); // 等待添加习惯操作完成
+    switchToBet(); // 切换到 "bet" 内容
+  };
+
+  const data = useHabit();
+  useEffect(() => {}, [data]);
+
+
+  const returntohabit = () => {
+    setCurrentContent("habit");
+  };
+
+  const returntoMain = () => {
+    setCurrentContent("Main");
+  };
+
+  const handleAddHabitAndSwitchToMain = async () => {
+    await handleAddHabit(); // 等待添加习惯操作完成
+    returntohabit(); 
+  };
+
 
 
     // 處理表單提交
@@ -53,14 +103,16 @@ export default function Setuphabit() {
             <div className="left-0 top-[2px] absolute text-black text-4xl font-bold font-['Roboto']">Due Date</div>
             <div className="w-96 h-11 left-[202px] top-0 absolute">
               <div className="w-96 h-11 left-0 top-0 absolute bg-white rounded border border-gray-300">
-                <input
-                  type="date"
-                  name="dueDate"
-                  className="w-full border rounded"
-                  placeholder="What’s the date?"
-                  value={dueDate}
-                  onChange={(e) => setDueDate(e.target.value)}
-                />
+              <Flatpickr
+                value={dueDate}
+                options={{
+                  dateFormat: "Y-m-d",
+                  minDate: new Date().fp_incr(1), // tomorrow
+                }}
+                onChange={(date) => {
+                  setDueDate(date[0]);
+                }}
+              />
               </div>
               <div className="left-[16px] top-[11px] absolute opacity-80 text-zinc-700 text-xl font-light font-['Public Sans']">
               </div>
@@ -70,7 +122,7 @@ export default function Setuphabit() {
 
         <div>{/* 第三組 */}
           <div className="w-64 h-20 right-[40px] top-[477px] absolute bg-pink-900 rounded-2xl shadow border-2 border-black border-opacity-5">
-            <button type="submit" onClick={switchToBet} className="w-56 h-16 left-[17px] top-[12px] absolute text-center text-white text-2xl font-semibold font-['Inter'] leading-loose">
+            <button type="submit" onClick={handleAddHabitAndSwitchToBet} className="w-56 h-16 left-[17px] top-[12px] absolute text-center text-white text-2xl font-semibold font-['Inter'] leading-loose">
               Next, place a bet
             </button>
           </div>
@@ -144,8 +196,7 @@ export default function Setuphabit() {
           <div className="flex w-[537px] max-w-full items-start justify-between gap-5 mt-40 max-md:flex-wrap">
               <div className="justify-center items-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-stone-400 self-stretch flex w-[159px] max-w-full flex-col px-5 py-8 rounded-3xl border-2 border-solid border-[rgba(0,0,0,0.06)]">
               {/* Button: Return */}
-       
-                <button onClick={returntohabit} className="justify-center text-white text-center text-2xl font-semibold leading-8 self-center w-[248px] -mt-px">
+                <button onClick={handleAddHabitAndSwitchToMain} className="justify-center text-white text-center text-2xl font-semibold leading-8 self-center w-[248px] -mt-px">
                     Return
                 </button>
 
@@ -153,7 +204,7 @@ export default function Setuphabit() {
               <div className="justify-center items-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] bg-pink-900 self-stretch flex w-[350px] max-w-full flex-col grow shrink-0 basis-auto px-5 py-7 rounded-3xl border-2 border-solid border-[rgba(0,0,0,0.06)]">
               {/* Button: Let go and create habits! */}
         
-                <button type="submit" className="justify-center text-white text-center text-2xl font-semibold leading-8 self-center mb-0">
+                <button type="submit" className="justify-center text-white text-center text-2xl font-semibold leading-8 self-center mb-0" >
                   Let go and create habits!
              
               </button>
@@ -164,6 +215,10 @@ export default function Setuphabit() {
       </div>
         </div>
 )}
+
+        
+
+
 
        
       </div>
