@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Dialog,
@@ -37,6 +37,7 @@ export default function DialogWithForm({
     if (sharedHabit && Object.keys(sharedHabit).length !== 0 && !open)
     setIsImage(false);
   }, [open]);
+
 
   return (
     <div>
@@ -82,6 +83,7 @@ export default function DialogWithForm({
 
             <FooterWithSocialLinks
               setIsImage={setIsImage}
+              isImage={isImage}
             />
 
           </Card>
