@@ -10,7 +10,6 @@ import {
 
 import FooterWithSocialLinks from "./shareFooter";
 
-
 export default function DialogWithForm({
   open,
   handleOpen,
@@ -23,7 +22,6 @@ export default function DialogWithForm({
 
   const [isImage, setIsImage] = useState(false);
 
-
   useEffect(() => {
     if (sharedHabit && Object.keys(sharedHabit).length !== 0 && open) {
       sharedHabit.result === "win"
@@ -35,7 +33,7 @@ export default function DialogWithForm({
 
   useEffect(() => {
     if (sharedHabit && Object.keys(sharedHabit).length !== 0 && !open)
-    setIsImage(false);
+      setIsImage(false);
   }, [open]);
 
   return (
@@ -47,10 +45,9 @@ export default function DialogWithForm({
         className="bg-transparent shadow-none"
         isLoaded={isMutating && !sharedHabit}
       >
-        
         {sharedHabit && (
           <Card className="mx-auto w-full max-w-[24rem]">
-            <CardBody id="" className="flex flex-col gap-4">
+            <CardBody id="habitShare" className="flex flex-col gap-4">
               <Typography variant="h4" color="blue-gray">
                 Who won?
               </Typography>
@@ -67,7 +64,7 @@ export default function DialogWithForm({
                     variant="paragraph"
                     color="gray"
                   >
-                  {winner} won {stake} SaySayCoin from {loser}!
+                    {winner} won {stake} SaySayCoin from {loser}!
                   </Typography>
                 </>
               )}
@@ -80,9 +77,7 @@ export default function DialogWithForm({
               </Button>
             </CardFooter>
 
-            <FooterWithSocialLinks
-              setIsImage={setIsImage}
-            />
+            <FooterWithSocialLinks isImage={isImage} setIsImage={setIsImage} />
           </Card>
         )}
       </Dialog>

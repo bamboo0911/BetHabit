@@ -140,6 +140,8 @@ export const getHabitStatus = async (req, res) => {
 
   try {
     const habit = await HabitSchema.findOne({ habitId: habitid });
+    const user = await UserSchema.findOne({ userId: habit.userId });
+    const theBet = await BetSchema.findOne({ betId: habit.betId });
 
     if (!habit) {
       return res.status(404).json({ error: "Habit not found" });
@@ -173,10 +175,6 @@ export const getHabitStatus = async (req, res) => {
     const totalDay = checkValues.length;
     const checkedDay = checkValues.filter((value) => value === true);
     const finishedRate = checkedDay / totalDay;
-
-    // 應該不會沒找到
-    const user = await UserSchema.findOne({ userId: habit.userId });
-    const theBet = await BetSchema.findOne({ betId: habit.betId });
 
     const targetHabit = {
       habitTitle: habit.habitTitle,
