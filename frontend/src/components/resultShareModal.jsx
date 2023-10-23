@@ -9,8 +9,8 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import FooterWithSocialLinks from "./shareFooter";
-import Winner from "../images/IMG_3909.jpg"
-import Loser from "../images/IMG_3863.jpg"
+import Winner from "../images/IMG_3909.jpg";
+import Loser from "../images/IMG_3863.jpg";
 
 export default function DialogWithForm({
   open,
@@ -21,7 +21,7 @@ export default function DialogWithForm({
   const [winner, setWinner] = useState("");
   const [loser, setLoser] = useState("");
   const [stake, setStake] = useState(0);
-  const [habitTitle, setHabitTitle] =useState("");
+  const [habitTitle, setHabitTitle] = useState("");
   const [finishedRate, setFinishedRate] = useState(0);
   const [isImage, setIsImage] = useState(false);
 
@@ -46,25 +46,31 @@ export default function DialogWithForm({
         isLoaded={isMutating && !sharedHabit}
       >
         {sharedHabit && (
-          <Card className="mx-auto w-full max-w-[24rem]" style={{ backgroundColor: "#fbe9e7"}}>
+          <Card
+            className="mx-auto w-full max-w-[24rem]"
+            style={{ backgroundColor: "#fbe9e7" }}
+          >
             <CardBody className="flex flex-col gap-4">
               <div className="text-center m-2">
-                <Typography variant="h2" style={{ color: '#263238' }}>
+                <Typography variant="h2" style={{ color: "#263238" }}>
                   Who won?
                 </Typography>
               </div>
               <div className="text-center">
-                <Typography variant="h3" style={{ color: '#263238', fontFamily:"Monsterrat" }}>
+                <Typography
+                  variant="h3"
+                  style={{ color: "#263238", fontFamily: "Monsterrat" }}
+                >
                   {habitTitle.toUpperCase()}
                 </Typography>
               </div>
               <div className="flex justify-between m-2">
                 <div>
-                  <Typography variant="h5" style={{color:'#ad1457'}}>
+                  <Typography variant="h5" style={{ color: "#ad1457" }}>
                     Winner: {winner}
                   </Typography>
-                  <Avatar 
-                    style={{borderColor:'#ad1457'}}
+                  <Avatar
+                    style={{ borderColor: "#ad1457" }}
                     size="xxl"
                     variant="circular"
                     alt="Winner"
@@ -73,11 +79,11 @@ export default function DialogWithForm({
                   />
                 </div>
                 <div>
-                  <Typography variant="h5" style={{color:'#01579b'}}>
+                  <Typography variant="h5" style={{ color: "#01579b" }}>
                     Loser: {loser}
                   </Typography>
                   <Avatar
-                    style={{borderColor:'#01579b'}}
+                    style={{ borderColor: "#01579b" }}
                     size="xxl"
                     variant="circular"
                     alt="Loser"
@@ -87,30 +93,34 @@ export default function DialogWithForm({
                 </div>
               </div>
               <div className="text-center m-4">
-                <Typography variant="h6" color="text-secondary" 
-                style={{
-                  fontStyle: 'italic',
-                  border: '2px solid #fdd835',
-                  padding: '10px',
-                  borderRadius: '10px', // 添加边框角弧度
-                  backgroundColor: 'rgba(253, 216, 53, 0.2)', // 添加背景色
-                }}>
-                {`$$  ${winner} won ${stake} SSD from ${loser}   $$`}   
+                <Typography
+                  variant="h6"
+                  color="text-secondary"
+                  style={{
+                    fontStyle: "italic",
+                    border: "2px solid #fdd835",
+                    padding: "10px",
+                    borderRadius: "10px", // 添加边框角弧度
+                    backgroundColor: "rgba(253, 216, 53, 0.2)", // 添加背景色
+                  }}
+                >
+                  {`$$  ${winner} won ${stake} SSD from ${loser}   $$`}
                 </Typography>
               </div>
             </CardBody>
             <CardFooter className="pt-0">
-              
-            <Button variant="h5" fullWidth onClick={handleOpen} style={{ fontSize: '15px' }}>
-              {sharedHabit.result === "win"
-                ? `${sharedHabit.userName} is no longer a SaySayMonster`
-                : `${sharedHabit.userName} is definitely a SaySayMonster`}
-            </Button>
-  
+              <Button
+                variant="h5"
+                fullWidth
+                onClick={handleOpen}
+                style={{ fontSize: "15px" }}
+              >
+                {sharedHabit.result === "win"
+                  ? `${sharedHabit.userName} is no longer a SaySayMonster`
+                  : `${sharedHabit.userName} is definitely a SaySayMonster`}
+              </Button>
             </CardFooter>
-            <FooterWithSocialLinks
-              setIsImage={setIsImage}
-            />
+            <FooterWithSocialLinks isImage={isImage} setIsImage={setIsImage} />
           </Card>
         )}
       </Dialog>

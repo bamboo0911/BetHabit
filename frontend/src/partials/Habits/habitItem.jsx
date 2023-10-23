@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Button, Progress } from "@material-tailwind/react";
+import { Button, Progress, progress } from "@material-tailwind/react";
 import useDailyCheck from "../../hooks/habit/useDailyCheck";
 import useGetStatus from "../../hooks/habit/useHabitStatus";
 
@@ -22,7 +22,6 @@ export default function habitItem({
     isMutating,
   } = useGetStatus(habitId);
 
-  
   const handleCheck = async () => {
     await dailyCheck();
     window.location.reload();
@@ -59,9 +58,9 @@ export default function habitItem({
     const totalDays = Math.ceil(totalTime / (1000 * 60 * 60 * 24));
     const passedTimes = Math.abs(today - createDateObj);
     const passedDays = Math.ceil(passedTimes / (1000 * 60 * 60 * 24));
-    const progress = Math.floor((passedDays / totalDays) * 100);
     const leftDays = totalDays - passedDays;
-    return [progress, leftDays];
+
+    return { passedDays, totalDays, leftDays };
   };
 
   return (
@@ -73,7 +72,11 @@ export default function habitItem({
         <div className="sm:flex sm:justify-between items-center p-4 sm:items-center">
           <div>
             <div className="text-1xl md:text-2xl mb-1">{habitTitle}</div>
-            <div className="mb-2">{caculateProgress()[1]} days left</div>
+            <div className="mb-2">
+              Progress: {caculateProgress().passedDays} days /{" "}
+              {caculateProgress().totalDays} days ({caculateProgress().leftDays}{" "}
+              days left)
+            </div>
             <Progress color="blue" value={caculateProgress()[0]} />
           </div>
           <div>

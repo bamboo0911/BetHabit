@@ -140,6 +140,8 @@ export const getHabitStatus = async (req, res) => {
 
   try {
     const habit = await HabitSchema.findOne({ habitId: habitid });
+    const user = await UserSchema.findOne({ userId: habit.userId });
+    const theBet = await BetSchema.findOne({ betId: habit.betId });
 
     if (!habit) {
       return res.status(404).json({ error: "Habit not found" });
@@ -157,16 +159,22 @@ export const getHabitStatus = async (req, res) => {
 
       habit.status = `${habitSuccess}`;
       await habit.save();
+
+      if (user.saysayPoint) {
+        // 計算贏多少錢
+        const moneyChange =
+          habitSuccess === "win" ? theBet.stake : theBet.stake * -1;
+
+        user.saysayPoint = user.saysayPoint + moneyChange;
+
+        user.save();
+      }
     }
 
     const checkValues = habit.dateCheck.map((item) => item.checked);
     const totalDay = checkValues.length;
     const checkedDay = checkValues.filter((value) => value === true);
     const finishedRate = checkedDay / totalDay;
-
-    // 應該不會沒找到
-    const user = await UserSchema.findOne({ userId: habit.userId });
-    const theBet = await BetSchema.findOne({ betId: habit.betId });
 
     const targetHabit = {
       habitTitle: habit.habitTitle,
@@ -179,15 +187,6 @@ export const getHabitStatus = async (req, res) => {
       stake: theBet.stake,
     };
 
-    if (user.saysayPoint) {
-      // 計算贏多少錢
-      const moneyChange = (habitSuccess === "win")?theBet.stake:theBet.stake*-1;
-
-      user.saysayPoint = user.saysayPoint + moneyChange;
-
-      user.save();
-    };
-    
     res.status(200).json(targetHabit);
   } catch (error) {
     genericErrorHandler(error, res);
