@@ -4,6 +4,7 @@ import html2canvas from "html2canvas";
 
 export default function FooterWithSocialLinks({ setIsImage, isImage }) {
   const screenShot = () => {
+    
     setIsImage(true);
     const habit = document.getElementById("habitShare");
 
@@ -70,6 +71,7 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
                   </Button>
                 </>
               )}
+
             </Typography>
             <Typography
               as="a"
