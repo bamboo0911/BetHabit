@@ -2,20 +2,21 @@ import { Button, Typography } from "@material-tailwind/react";
 
 import html2canvas from 'html2canvas';
 
-
 export default function FooterWithSocialLinks({ setIsImage }) {
 
   
   const screenShot = () => {
     setIsImage(true);
-    html2canvas().then((canvas) => {
+    const habit = document.getElementById("habitShare");
+
+    html2canvas(habit).then((canvas) => {
       const image = new Image();
       image.src = canvas.toDataURL(); // 將Canvas轉換為DataURL
   
       // 創建一個新的<img>元素並將其添加到頁面上
       const imgElement = document.createElement("img");
       imgElement.src = image.src;
-      const habit = document.getElementById("habitShare");
+    
       habit.appendChild(imgElement);
       
     });

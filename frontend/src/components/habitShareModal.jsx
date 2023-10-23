@@ -33,6 +33,11 @@ export default function DialogWithForm({
     }
   }, [sharedHabit]);
 
+  useEffect(() => {
+    if (sharedHabit && Object.keys(sharedHabit).length !== 0 && !open)
+    setIsImage(false);
+  }, [open]);
+
   return (
     <div>
       <Dialog
