@@ -36,6 +36,12 @@ export default function DialogWithForm({
       setHabitTitle(sharedHabit.habitTitle);
     }
   }, [sharedHabit]);
+
+  useEffect(() => {
+    if (sharedHabit && Object.keys(sharedHabit).length !== 0 && !open)
+      setIsImage(false);
+  }, [open]);
+
   return (
     <>
       <Dialog
@@ -48,10 +54,12 @@ export default function DialogWithForm({
         {sharedHabit && (
           <Card
             className="mx-auto w-full max-w-[24rem]"
-            style={{ backgroundColor: "#fbe9e7" }}
+            style={{ backgroundColor: "#fbe9e7" }} // ADD transform: "scale(0.8)" (?)
           >
-            <CardBody className="flex flex-col gap-4">
-              <div className="text-center m-2">
+            <CardBody id="habitShare"className="flex flex-col ">
+              {!isImage && (
+                <> 
+                  <div className="text-center m-2">
                 <Typography variant="h2" style={{ color: "#263238" }}>
                   Who won?
                 </Typography>
@@ -107,6 +115,8 @@ export default function DialogWithForm({
                   {`$$  ${winner} won ${stake} SSD from ${loser}   $$`}
                 </Typography>
               </div>
+                </>
+              )}  
             </CardBody>
             <CardFooter className="pt-0">
               <Button
