@@ -14,6 +14,18 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
 
       // 創建一個新的<img>元素並將其添加到頁面上
       const imgElement = document.createElement("img");
+      
+      // Add style to imgElement
+      imgElement.style.borderColor = "black"; 
+      imgElement.style.borderWidth = "2px";
+      imgElement.style.borderStyle = "dotted";
+      imgElement.style.borderRadius = "10px";
+      imgElement.style.padding = "0px";
+      imgElement.style.width = "90%";
+      imgElement.style.height = "auto";
+      imgElement.style.marginLeft = "auto";
+      imgElement.style.marginRight = "auto";
+      imgElement.style.marginTop = "3em";
       imgElement.src = image.src;
 
       habit.appendChild(imgElement);
@@ -27,9 +39,9 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
   */
 
   return (
-    <footer className="relative w-full pt-12">
+    <footer className="relative w-full pt-0">
       <div className="mx-auto w-full max-w-7xl px-8">
-        <div className="mt-12 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-surround">
+        <div className="mt-3 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-surround">
           <div className="flex gap-4 text-blue-gray-900 sm:justify-center">
             <Typography
               as="a"

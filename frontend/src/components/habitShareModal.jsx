@@ -10,6 +10,7 @@ import {
 
 import FooterWithSocialLinks from "./shareFooter";
 
+
 export default function DialogWithForm({
   open,
   handleOpen,
@@ -48,36 +49,47 @@ export default function DialogWithForm({
       >
         {sharedHabit && (
           <Card className="mx-auto w-full max-w-[24rem]">
-            <CardBody id="habitShare" className="flex flex-col gap-4">
-              <Typography variant="h4" color="blue-gray">
-                Who won?
-              </Typography>
+            <div id="habitShare">
               {!isImage && (
                 <>
-                  <Typography className="-mb-2" variant="h6">
-                    Winner: {winner}
+              <CardBody  className="flex flex-col gap-4">
+                  <Typography variant="h4" color="blue-gray">
+                  Who won?
                   </Typography>
-                  <Typography className="-mb-2" variant="h6">
-                    Loser: {loser}
-                  </Typography>
-                  <Typography
-                    className="mb-3 font-normal"
-                    variant="paragraph"
-                    color="gray"
-                  >
-                    {winner} won {stake} SaySayCoin from {loser}!
-                  </Typography>
-                </>
-              )}
-            </CardBody>
-            <CardFooter className="pt-0">
-              <Button variant="gradient" fullWidth onClick={handleOpen}>
-                {sharedHabit.result === "win"
-                  ? `${sharedHabit.userName} is no longer a SaySayMonster`
-                  : `${sharedHabit.userName} is definitely a SaySayMonster`}
-              </Button>
-            </CardFooter>
-
+                    <Typography className="-mb-2" variant="h6">
+                      Winner: {winner}
+                    </Typography>
+                    <Typography className="-mb-2" variant="h6">
+                      Loser: {loser}
+                    </Typography>
+                    <Typography
+                      className="mb-3 font-normal"
+                      variant="paragraph"
+                      color="gray"
+                    >
+                      {winner} won {stake} SaySayCoin from {loser}!
+                    </Typography>
+              </CardBody>
+              <CardFooter className="pt-0">
+                <Button variant="gradient" fullWidth onClick={handleOpen}>
+                  {sharedHabit.result === "win"
+                    ? `${sharedHabit.userName} is no longer a SaySayMonster`
+                    : `${sharedHabit.userName} is definitely a SaySayMonster`}
+                </Button>
+              </CardFooter>
+              </>
+              ) }
+            </div>
+            { isImage && (
+              <>
+                <CardFooter className="pt-0 mt-10 max-w-[15rem] mx-auto">
+                  <Button variant="gradient" fullWidth onClick={handleOpen}>
+                    DOWNLOAD IMAGE!
+                  </Button>
+                </CardFooter>
+              </>
+              
+            )}
             <FooterWithSocialLinks isImage={isImage} setIsImage={setIsImage} />
           </Card>
         )}
