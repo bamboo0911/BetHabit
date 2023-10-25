@@ -60,8 +60,8 @@ export default function habitItem({
 
   const caculateProgress = () => {
     const today = new Date();
-    const createDateObj = createDate.slice(0, 10);
-    const dueDateObj = dueDate.slice(0, 10);
+    const createDateObj = new Date(createDate.slice(0, 10));
+    const dueDateObj = new Date(dueDate.slice(0, 10));
     const totalTime = Math.abs(dueDateObj - createDateObj);
     const totalDays = Math.ceil(totalTime / (1000 * 60 * 60 * 24));
     const passedTimes = Math.abs(today - createDateObj);
