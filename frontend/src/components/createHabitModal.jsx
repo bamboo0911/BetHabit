@@ -7,6 +7,7 @@ import {
   CardFooter,
   Typography,
   Input,
+  Spinner,
 } from "@material-tailwind/react";
 import useAddHabit from "../hooks/habit/useAddHabit";
 
@@ -21,7 +22,7 @@ export default function DialogWithForm({ open, handleOpen }) {
   const [stake, setStake] = useState(0);
   const [betPartner, setBetPartner] = useState("");
 
-  const { trigger: addHabit } = useAddHabit();
+  const { trigger: addHabit, isMutating } = useAddHabit();
 
   const handleAddHabit = async () => {
     const stakeInt = parseInt(stake, 10);
@@ -119,13 +120,20 @@ export default function DialogWithForm({ open, handleOpen }) {
             )}
           </CardBody>
           <CardFooter className="pt-0">
-            <Button
-              variant="gradient"
-              onClick={next ? handleAddHabit : handleNext}
-              fullWidth
-            >
-              {next ? "Create!" : "Next"}
-            </Button>
+            {isMutating ? (
+              <div className=" flex justify-center">
+                <Spinner className="h-10 w-10 text-gray-900/50" />
+              </div>
+            ) : (
+              <Button
+                variant="gradient"
+                onClick={next ? handleAddHabit : handleNext}
+                fullWidth
+              >
+                {next ? "Create!" : "Next"}
+              </Button>
+            )}
+
             <Typography variant="small" className="mt-4 flex justify-center">
               {next ? "Let go and create habits!" : "Next, plan your bet!"}
             </Typography>
