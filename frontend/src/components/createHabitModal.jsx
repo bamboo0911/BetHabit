@@ -73,7 +73,7 @@ export default function DialogWithForm({ open, handleOpen }) {
             )}
 
             <Typography variant="h4" color="blue-gray">
-              {next ? "Create Bet" : "Create Your Habit"}
+              {next ? "建立賭注" : "建立你的習慣"}
             </Typography>
             <Typography
               className="mb-3 font-normal"
@@ -81,14 +81,14 @@ export default function DialogWithForm({ open, handleOpen }) {
               color="gray"
             >
               {next
-                ? "Enter who you want to bet with and the stake."
-                : "Enter the habit you want to create and the due date."}
+                ? "輸入打賭夥伴、籌碼"
+                : "輸入習慣名稱、到期日"}
             </Typography>
             <Typography className="-mb-2" variant="h6">
-              {next ? "Bet Partner" : "Habit Title"}
+              {next ? "打賭夥伴" : "習慣名稱"}
             </Typography>
             <Input
-              label={next ? "Bet Partner" : "Habit Title"}
+              label={next ? "打賭夥伴" : "習慣名稱"}
               size="lg"
               value={next ? betPartner : habitTitle}
               onChange={(e) =>
@@ -98,11 +98,11 @@ export default function DialogWithForm({ open, handleOpen }) {
               }
             />
             <Typography className="-mb-2" variant="h6">
-              {next ? "Stake" : "Due Date"}
+              {next ? "籌碼" : "到期日"}
             </Typography>
             {next ? (
               <Input
-                label="stake"
+                label="籌碼"
                 size="lg"
                 value={stake}
                 onChange={(e) => setStake(e.target.value)}
@@ -130,12 +130,12 @@ export default function DialogWithForm({ open, handleOpen }) {
                 onClick={next ? handleAddHabit : handleNext}
                 fullWidth
               >
-                {next ? "Create!" : "Next"}
+                {next ? "建立!" : "下一步"}
               </Button>
             )}
 
             <Typography variant="small" className="mt-4 flex justify-center">
-              {next ? "Let go and create habits!" : "Next, plan your bet!"}
+              {next ? "一起培養習慣吧" : "下一步 建立打賭"}
             </Typography>
           </CardFooter>
         </Card>

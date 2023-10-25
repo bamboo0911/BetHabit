@@ -17,7 +17,7 @@ export default function Habit() {
   //   await addUser({ userName });
   //   setUserName("");
   // };
-
+  
   const [date, setDate] = useState(new Date());
   const [openCreateHabitModal, setOpenCreateHabitModal] = useState(false);
   const [openCloseHabitModal, setOpenCloseHabitModal] = useState(false);
