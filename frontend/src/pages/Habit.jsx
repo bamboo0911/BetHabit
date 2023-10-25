@@ -74,7 +74,7 @@ export default function Habit() {
                 {/* Date */}
                 <div className="relative">
                   <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-1">
-                    Today
+                    今天
                   </h1>
                   <p className="dark:text-indigo-200">
                     {date.toLocaleDateString()}
@@ -122,14 +122,14 @@ export default function Habit() {
                     >
                       <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
                     </svg>
-                    <span className="hidden xs:block ml-2">Add new habit</span>
+                    <span className="hidden xs:block ml-2">建立新習慣</span>
                   </button>
                 </div>
               </div>
               {/* Unchecked Habit */}
               <div className="sm:flex sm:justify-start sm:items-center mb-4">
                 <p className="text-1xl md:text-2xl dark:text-indigo-200">
-                  Unchecked
+                  今日未簽到
                 </p>
               </div>
               <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/10 mb-5">
@@ -155,7 +155,7 @@ export default function Habit() {
               {/* Checked Habit */}
               <div className="sm:flex sm:justify-start sm:items-center mb-4">
                 <p className="text-1xl md:text-2xl dark:text-indigo-200">
-                  Checked
+                  今日已簽到
                 </p>
               </div>
               <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/10 mb-5">
@@ -181,7 +181,7 @@ export default function Habit() {
               {/* To Close */}
               <div className="sm:flex sm:justify-start sm:items-center mb-4">
                 <p className="text-1xl md:text-2xl dark:text-indigo-200">
-                  To Close
+                  結算
                 </p>
               </div>
               <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/10 mb-5">
@@ -207,7 +207,7 @@ export default function Habit() {
               {/* Closed Habit */}
               <div className="sm:flex sm:justify-start sm:items-center mb-4">
                 <p className="text-1xl md:text-2xl dark:text-indigo-200">
-                  Closed
+                  已完成的習慣
                 </p>
               </div>
               <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/10 mb-5">

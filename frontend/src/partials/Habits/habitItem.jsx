@@ -81,18 +81,18 @@ export default function habitItem({
           <div>
             <div className="text-1xl md:text-2xl mb-1">{habitTitle}</div>
             <div className="mb-2">
-              Progress: {caculateProgress().passedDays} days /{" "}
-              {caculateProgress().totalDays} days ({caculateProgress().leftDays}{" "}
-              days left)
+              進度 {caculateProgress().passedDays} 天 /{" "}
+              {caculateProgress().totalDays} 天 (剩餘 {caculateProgress().leftDays}{" "}
+              天)
             </div>
-            <p>{finishedRate}% Checked</p>
+            <p>已完成 {finishedRate}%</p>
             <Progress color="orange" value={finishedRate} size="lg" />
           </div>
           <div>
             {status === "uncheck" && (
               <>
                 <Button color="green" onClick={handleCheck}>
-                  Check
+                  簽到
                 </Button>
                 <Button
                   color="orange"
@@ -100,14 +100,14 @@ export default function habitItem({
                   onClick={handleShareHabit}
                   className="ml-2"
                 >
-                  Share Habit
+                  分享習慣
                 </Button>
               </>
             )}
             {status === "checked" && (
               <>
                 <Button color="green" variant="outlined" disabled="true">
-                  Checked
+                  已簽到
                 </Button>
                 <Button
                   color="orange"
@@ -115,14 +115,14 @@ export default function habitItem({
                   onClick={handleShareHabit}
                   className="ml-2"
                 >
-                  Share Habit
+                  分享習慣
                 </Button>
               </>
             )}
             {status === "close" && (
               <>
                 <Button color="orange" variant="text" onClick={handleCalculate}>
-                  Close
+                  結算
                 </Button>
                 <Button
                   color="orange"
@@ -130,14 +130,14 @@ export default function habitItem({
                   onClick={handleShareHabit}
                   className="ml-2"
                 >
-                  Share Habit
+                  分享習慣
                 </Button>
               </>
             )}
             {status === "win" && (
               <>
                 <Button color="black" variant="text" disabled="true" size="lg">
-                  Win
+                  勝利
                 </Button>
                 <Button
                   color="orange"
@@ -145,14 +145,14 @@ export default function habitItem({
                   onClick={handleShareResult}
                   className="ml-2"
                 >
-                  Share Result
+                  分享結果
                 </Button>
               </>
             )}
             {status === "lose" && (
               <>
                 <Button color="black" variant="text" disabled="true" size="lg">
-                  Lose
+                  輸了
                 </Button>
                 <Button
                   color="orange"
@@ -160,7 +160,7 @@ export default function habitItem({
                   onClick={handleShareResult}
                   className="ml-2"
                 >
-                  Share Result
+                  分享結果
                 </Button>
               </>
             )}
