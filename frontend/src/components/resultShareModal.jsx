@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import FooterWithSocialLinks from "./shareFooter";
+import DownloadButton from "./downloadpic";
 import Winner from "../images/IMG_3909.jpg";
 import Loser from "../images/IMG_3863.jpg";
 
@@ -36,6 +37,12 @@ export default function DialogWithForm({
       setHabitTitle(sharedHabit.habitTitle);
     }
   }, [sharedHabit]);
+
+  useEffect(() => {
+    if (sharedHabit && Object.keys(sharedHabit).length !== 0 && !open)
+      setIsImage(false);
+  }, [open]);
+
   return (
     <>
       <Dialog
@@ -48,10 +55,12 @@ export default function DialogWithForm({
         {sharedHabit && (
           <Card
             className="mx-auto w-full max-w-[24rem]"
-            style={{ backgroundColor: "#fbe9e7" }}
+            style={{ backgroundColor: "#fbe9e7" }} // ADD transform: "scale(0.8)" (?)
           >
-            <CardBody className="flex flex-col gap-4">
-              <div className="text-center m-2">
+            <CardBody id="Share"className="flex flex-col ">
+              {!isImage && (
+                <> 
+                  <div className="text-center m-2">
                 <Typography variant="h2" style={{ color: "#263238" }}>
                   Who won?
                 </Typography>
@@ -65,7 +74,7 @@ export default function DialogWithForm({
                 </Typography>
               </div>
               <div className="flex justify-between m-2">
-                <div>
+                <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Typography variant="h5" style={{ color: "#ad1457" }}>
                     Winner: {winner}
                   </Typography>
@@ -78,7 +87,7 @@ export default function DialogWithForm({
                     src={Winner}
                   />
                 </div>
-                <div>
+                <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Typography variant="h5" style={{ color: "#01579b" }}>
                     Loser: {loser}
                   </Typography>
@@ -107,6 +116,8 @@ export default function DialogWithForm({
                   {`$$  ${winner} won ${stake} SSD from ${loser}   $$`}
                 </Typography>
               </div>
+                </>
+              )}  
             </CardBody>
             <CardFooter className="pt-0">
               <Button
@@ -120,6 +131,7 @@ export default function DialogWithForm({
                   : `${sharedHabit.userName} is definitely a SaySayMonster`}
               </Button>
             </CardFooter>
+            <DownloadButton isImage={isImage} setIsImage={setIsImage} />
             <FooterWithSocialLinks isImage={isImage} setIsImage={setIsImage} />
           </Card>
         )}
