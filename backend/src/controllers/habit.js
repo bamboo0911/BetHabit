@@ -22,7 +22,7 @@ export const getHabit = async (req, res) => {
 
     const userHabits = await HabitSchema.find(
       { userId: userid },
-      "habitId betId dueDate status habitTitle createAt"
+      "habitId betId dueDate status habitTitle createAt dateCheck"
     );
 
     res.status(200).json(userHabits);
@@ -173,8 +173,9 @@ export const getHabitStatus = async (req, res) => {
 
     const checkValues = habit.dateCheck.map((item) => item.checked);
     const totalDay = checkValues.length;
-    const checkedDay = checkValues.filter((value) => value === true);
-    const finishedRate = checkedDay / totalDay;
+    const checkedValues = checkValues.filter((value) => value === true);
+    const checkedDay = checkedValues.length;
+    const finishedRate = Math.ceil((checkedDay / totalDay) * 100);
 
     const targetHabit = {
       habitTitle: habit.habitTitle,

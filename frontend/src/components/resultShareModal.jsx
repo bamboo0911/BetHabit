@@ -57,7 +57,7 @@ export default function DialogWithForm({
             className="mx-auto w-full max-w-[24rem]"
             style={{ backgroundColor: "#fbe9e7" }} // ADD transform: "scale(0.8)" (?)
           >
-            <CardBody id="Share"className="flex flex-col ">
+            <CardBody id="Share" className="flex flex-col ">
               {!isImage && (
                 <> 
                   <div className="text-center m-2">

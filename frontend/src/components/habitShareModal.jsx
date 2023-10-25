@@ -11,6 +11,8 @@ export default function DialogWithForm({ open, handleOpen, sharedHabit, isMutati
   const [userName, setUserName] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [finishedRate, setFinishedRate] = useState("");
+  const [winner, setWinner] = useState("");
+  const [loser, setLoser] = useState("");
   const [stake, setStake] = useState(0);
   const [isImage, setIsImage] = useState(false);
 
