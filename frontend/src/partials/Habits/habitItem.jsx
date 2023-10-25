@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Button, Progress, progress } from "@material-tailwind/react";
+import { Button, Progress } from "@material-tailwind/react";
 import useDailyCheck from "../../hooks/habit/useDailyCheck";
 import useGetStatus from "../../hooks/habit/useHabitStatus";
 
@@ -9,6 +9,7 @@ export default function habitItem({
   habitId,
   status,
   createDate,
+  record,
   openCloseHabitModal,
   openResultShareModal,
   openHabitShareModal,
@@ -50,10 +51,17 @@ export default function habitItem({
     getIsMutating(isMutating);
   }, [isMutating]);
 
+  // console.log("record", record);
+  const checkValues = record.map((item) => item.checked);
+  const totalDay = checkValues.length;
+  const checkedValues = checkValues.filter((value) => value === true);
+  const checkedDay = checkedValues.length;
+  const finishedRate = Math.ceil((checkedDay / totalDay) * 100);
+
   const caculateProgress = () => {
     const today = new Date();
-    const createDateObj = new Date(createDate.slice(0, 10));
-    const dueDateObj = new Date(dueDate.slice(0, 10));
+    const createDateObj = createDate.slice(0, 10);
+    const dueDateObj = dueDate.slice(0, 10);
     const totalTime = Math.abs(dueDateObj - createDateObj);
     const totalDays = Math.ceil(totalTime / (1000 * 60 * 60 * 24));
     const passedTimes = Math.abs(today - createDateObj);
@@ -77,64 +85,83 @@ export default function habitItem({
               {caculateProgress().totalDays} days ({caculateProgress().leftDays}{" "}
               days left)
             </div>
-            <Progress color="blue" value={caculateProgress()[0]} />
+            <p>{finishedRate}% Checked</p>
+            <Progress color="orange" value={finishedRate} size="lg" />
           </div>
           <div>
             {status === "uncheck" && (
               <>
-                <Button
-                  style={{ backgroundColor: "pink" }}
-                  onClick={handleShareHabit}
-                >
-                  Share Habit
+                <Button color="green" onClick={handleCheck}>
+                  Check
                 </Button>
                 <Button
-                  style={{ backgroundColor: "green" }}
-                  onClick={handleCheck}
+                  color="orange"
+                  variant="text"
+                  onClick={handleShareHabit}
+                  className="ml-2"
                 >
-                  Check
+                  Share Habit
                 </Button>
               </>
             )}
             {status === "checked" && (
               <>
+                <Button color="green" variant="outlined" disabled="true">
+                  Checked
+                </Button>
                 <Button
-                  style={{ backgroundColor: "pink" }}
+                  color="orange"
+                  variant="text"
                   onClick={handleShareHabit}
+                  className="ml-2"
                 >
                   Share Habit
                 </Button>
-                <Button style={{ backgroundColor: "gray" }}>Checked</Button>
               </>
             )}
             {status === "close" && (
-              <Button
-                style={{ backgroundColor: "red" }}
-                onClick={handleCalculate}
-              >
-                Close
-              </Button>
+              <>
+                <Button color="orange" variant="text" onClick={handleCalculate}>
+                  Close
+                </Button>
+                <Button
+                  color="orange"
+                  variant="text"
+                  onClick={handleShareHabit}
+                  className="ml-2"
+                >
+                  Share Habit
+                </Button>
+              </>
             )}
             {status === "win" && (
               <>
+                <Button color="black" variant="text" disabled="true" size="lg">
+                  Win
+                </Button>
                 <Button
-                  style={{ backgroundColor: "pink" }}
+                  color="orange"
+                  variant="text"
                   onClick={handleShareResult}
+                  className="ml-2"
                 >
                   Share Result
                 </Button>
-                <Button style={{ backgroundColor: "black" }}>Win</Button>
               </>
             )}
             {status === "lose" && (
               <>
+                <Button color="black" variant="text" disabled="true" size="lg">
+                  Lose
+                </Button>
                 <Button
-                  style={{ backgroundColor: "pink" }}
+                  color="orange"
+                  variant="text"
                   onClick={handleShareResult}
+                  className="ml-2"
                 >
                   Share Result
                 </Button>
-                <Button style={{ backgroundColor: "black" }}>Lose</Button>
               </>
             )}
           </div>
