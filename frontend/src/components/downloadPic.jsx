@@ -15,31 +15,10 @@ export default function DownloadButton({ setIsImage, isImage }) {
     });
   };
 
-  /*html2canvas(habit).then((canvas) => {
-    const image = new Image();
-    image.src = canvas.toDataURL();
-
-    const imgElement = document.createElement("img");
-
-    imgElement.style.borderColor = "black";
-    imgElement.style.borderWidth = "2px";
-    imgElement.style.borderStyle = "dotted";
-    imgElement.style.borderRadius = "10px";
-    imgElement.style.padding = "0px";
-    imgElement.style.width = "90%";
-    imgElement.style.height = "auto";
-    imgElement.style.marginLeft = "auto";
-    imgElement.style.marginRight = "auto";
-    imgElement.style.marginTop = "3em";
-    imgElement.src = image.src;
-
-    habit.appendChild(imgElement);
-  });*/
-
   return (
-    <CardFooter className="pt-0 mt-10 max-w-[15rem] mx-auto">
+    <CardFooter className="py-2 m-0 max-w-[15rem] mx-auto">
       {isImage && (
-        <Button onClick={downloadImage} variant="gradient" fullWidth>
+        <Button color="deep-orange" onClick={downloadImage} variant="gradient" fullWidth>
           DOWNLOAD IMAGE!
         </Button>
       )}

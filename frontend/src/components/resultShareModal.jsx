@@ -55,19 +55,19 @@ export default function DialogWithForm({
         {sharedHabit && (
           <Card
             className="mx-auto w-full max-w-[24rem]"
-            style={{ backgroundColor: "#fbe9e7" }} // ADD transform: "scale(0.8)" (?)
+            style={{ backgroundColor: "#fce6d4" }} // ADD transform: "scale(0.8)" (?)
           >
             <CardBody id="Share" className="flex flex-col ">
               {!isImage && (
                 <> 
                   <div className="text-center m-2">
-                <Typography variant="h2" style={{ color: "#263238" }}>
-                  Who won?
+                <Typography variant="h3" style={{ color: "#263238" }}>
+                  看看誰贏啦
                 </Typography>
               </div>
               <div className="text-center">
                 <Typography
-                  variant="h3"
+                  variant="h4"
                   style={{ color: "#263238", fontFamily: "Monsterrat" }}
                 >
                   {habitTitle.toUpperCase()}
@@ -76,7 +76,7 @@ export default function DialogWithForm({
               <div className="flex justify-between m-2">
                 <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Typography variant="h5" style={{ color: "#ad1457" }}>
-                    Winner: {winner}
+                    贏家： {winner}
                   </Typography>
                   <Avatar
                     style={{ borderColor: "#ad1457" }}
@@ -89,7 +89,7 @@ export default function DialogWithForm({
                 </div>
                 <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Typography variant="h5" style={{ color: "#01579b" }}>
-                    Loser: {loser}
+                    輸家： {loser}
                   </Typography>
                   <Avatar
                     style={{ borderColor: "#01579b" }}
@@ -101,36 +101,40 @@ export default function DialogWithForm({
                   />
                 </div>
               </div>
-              <div className="text-center m-4">
+              <div className="text-center m-0 pb-0">
                 <Typography
                   variant="h6"
                   color="text-secondary"
                   style={{
-                    fontStyle: "italic",
-                    border: "2px solid #fdd835",
-                    padding: "10px",
+                    padding: "8px",
                     borderRadius: "10px", // 添加边框角弧度
-                    backgroundColor: "rgba(253, 216, 53, 0.2)", // 添加背景色
+                    //backgroundColor: "rgba(260, 200, 45)", // 添加背景色
+                    fontFamily: "Monsterrat",
+                    width: "auto",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    color: "#F06A0D",
+                    fontSize: "18px",
                   }}
                 >
-                  {`$$  ${winner} won ${stake} SSD from ${loser}   $$`}
+                  {`${winner}贏走了${loser}的${stake}枚說說幣！`}
                 </Typography>
               </div>
+              <Button
+                variant="h5"
+                
+                onClick={false}
+                style={{ fontSize: "15px", width: "75%", marginLeft: "auto", marginRight: "auto"}}
+                ripple={false}
+                className="mt-5 bg-slate-600"
+              >
+                {sharedHabit.result === "win"
+                  ? `${sharedHabit.userName} 才不是說說怪！`
+                  : `${sharedHabit.userName} 完全就是說說怪！`}
+              </Button>
                 </>
               )}  
             </CardBody>
-            <CardFooter className="pt-0">
-              <Button
-                variant="h5"
-                fullWidth
-                onClick={handleOpen}
-                style={{ fontSize: "15px" }}
-              >
-                {sharedHabit.result === "win"
-                  ? `${sharedHabit.userName} is no longer a SaySayMonster`
-                  : `${sharedHabit.userName} is definitely a SaySayMonster`}
-              </Button>
-            </CardFooter>
             <DownloadButton isImage={isImage} setIsImage={setIsImage} />
             <FooterWithSocialLinks isImage={isImage} setIsImage={setIsImage} />
           </Card>
