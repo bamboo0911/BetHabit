@@ -17,7 +17,7 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
       
       // Add style to imgElement
       imgElement.style.borderColor = "black"; 
-      imgElement.style.borderWidth = "2px";
+      imgElement.style.borderWidth = "3px";
       imgElement.style.borderStyle = "dotted";
       imgElement.style.borderRadius = "10px";
       imgElement.style.padding = "0px";
@@ -26,7 +26,9 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
       imgElement.style.marginLeft = "auto";
       imgElement.style.marginRight = "auto";
       imgElement.style.marginTop = "3em";
+      imgElement.style.backgroundColor = "orange";
       imgElement.src = image.src;
+      
 
       habit.appendChild(imgElement);
     });
@@ -41,15 +43,16 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
   return (
     <footer className="relative w-full pt-0">
       <div className="mx-auto w-full max-w-7xl px-8">
-        <div className="mt-3 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-surround">
+        <div className="mt-0 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 pb-5 md:flex-row md:justify-surround">
           <div className="flex gap-4 text-blue-gray-900 sm:justify-center">
-            <Typography
+            {isImage && (
+              <Typography
               as="a"
               href="https://www.facebook.com/"
               className="opacity-80 transition-opacity hover:opacity-100"
             >
               <svg
-                className="h-16 w-16"
+                className="h-10 w-10"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -61,6 +64,7 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
                 />
               </svg>
             </Typography>
+            )}
             <Typography
               as="a"
               className="opacity-80 transition-opacity hover:opacity-100"
@@ -68,9 +72,9 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
             >
               {!isImage && (
                 <>
-                  <Button onClick={screenShot}>
+                  <Button size="sm" color="deep-orange" onClick={screenShot}>
                     <svg
-                      className="h-16 w-16"
+                      className="h-10 w-10"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                       aria-hidden="true"
@@ -85,13 +89,14 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
               )}
 
             </Typography>
-            <Typography
+            {isImage && (
+              <Typography
               as="a"
               href="https://www.instagram.com/"
               className="opacity-80 transition-opacity hover:opacity-100"
             >
               <svg
-                className="h-16 w-16"
+                className="h-10 w-10"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -103,6 +108,7 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
                 />
               </svg>
             </Typography>
+            )}
           </div>
         </div>
       </div>

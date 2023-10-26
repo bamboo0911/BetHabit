@@ -58,6 +58,7 @@ export default function habitItem({
   const checkedDay = checkedValues.length;
   const finishedRate = Math.ceil((checkedDay / totalDay) * 100);
 
+  
   const caculateProgress = () => {
     const today = new Date();
     const createDateObj = new Date(createDate.slice(0, 10));
@@ -91,14 +92,14 @@ export default function habitItem({
           <div>
             {status === "uncheck" && (
               <>
-                <Button color="green" onClick={handleCheck}>
+                <Button className="text-lg" color="green" onClick={handleCheck}>
                   簽到
                 </Button>
                 <Button
                   color="orange"
                   variant="text"
                   onClick={handleShareHabit}
-                  className="ml-2"
+                  className="ml-2 text-lg"
                 >
                   分享習慣
                 </Button>
@@ -106,14 +107,14 @@ export default function habitItem({
             )}
             {status === "checked" && (
               <>
-                <Button color="green" variant="outlined" disabled="true">
+                <Button className="text-lg" color="green" variant="outlined" disabled="true" >
                   已簽到
                 </Button>
                 <Button
                   color="orange"
                   variant="text"
                   onClick={handleShareHabit}
-                  className="ml-2"
+                  className="ml-2 text-lg"
                 >
                   分享習慣
                 </Button>
@@ -121,14 +122,14 @@ export default function habitItem({
             )}
             {status === "close" && (
               <>
-                <Button color="orange" variant="text" onClick={handleCalculate}>
+                <Button className="text-lg" color="orange" variant="text" onClick={handleCalculate}>
                   結算
                 </Button>
                 <Button
                   color="orange"
                   variant="text"
                   onClick={handleShareHabit}
-                  className="ml-2"
+                  className="text-lg ml-2"
                 >
                   分享習慣
                 </Button>
@@ -136,14 +137,14 @@ export default function habitItem({
             )}
             {status === "win" && (
               <>
-                <Button color="black" variant="text" disabled="true" size="lg">
-                  勝利
+                <Button className="text-lg" color="black" variant="text" disabled="true" size="lg">
+                  贏了
                 </Button>
                 <Button
                   color="orange"
                   variant="text"
                   onClick={handleShareResult}
-                  className="ml-2"
+                  className="text-lg ml-2"
                 >
                   分享結果
                 </Button>
@@ -151,14 +152,14 @@ export default function habitItem({
             )}
             {status === "lose" && (
               <>
-                <Button color="black" variant="text" disabled="true" size="lg">
-                  輸了
+                <Button className="text-lg" color="black" variant="text" disabled="true" size="lg">
+                  輸慘了
                 </Button>
                 <Button
                   color="orange"
                   variant="text"
                   onClick={handleShareResult}
-                  className="ml-2"
+                  className="text-lg ml-0 bd"
                 >
                   分享結果
                 </Button>

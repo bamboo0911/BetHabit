@@ -46,14 +46,14 @@ export default function DialogWithForm({ open, handleOpen, sharedHabit, isMutati
     >
       {sharedHabit && (
         <Card className="mx-auto w-full max-w-[24rem]" 
-            style={{ backgroundColor: "#fbe9e7" }}>
+            style={{ backgroundColor: "#fce6d4" }}>
                 
-          <CardBody id="Share" className="flex flex-col gap-4">
+          <CardBody id="Share" className="flex flex-col gap-4 pb-2">
             {!isImage && (
               <>
                 <div className="text-center m-2">
                   <Typography variant="h2" style={{ color: '#263238' }}>
-                    My Bet Habit
+                    BetHabit
                   </Typography>
                 </div>
                 <div className="text-center">
@@ -63,11 +63,11 @@ export default function DialogWithForm({ open, handleOpen, sharedHabit, isMutati
                 </div>
                 <div className="flex justify-between m-2">
                   <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography variant="h5" style={{ color: "#ad1457" }}>
+                    <Typography variant="h5" style={{ color: "#01579b" }}>
                       {userName}
                     </Typography>
                     <Avatar
-                      style={{ borderColor: "#ad1457" }}
+                      style={{ borderColor: "#01579b" }}
                       size="xxl"
                       variant="circular"
                       alt="Winner"
@@ -86,17 +86,36 @@ export default function DialogWithForm({ open, handleOpen, sharedHabit, isMutati
                       alt="Loser"
                       className="border-3 border-white hover:z-10 focus:z-10 m-2"
                       src={User2}
+                      
                     />
                   </div>
                 </div>
-                <div className="text-center m-2">
-                  <Typography variant="h5" style={{ color: '#263238', fontFamily: "Monsterrat" }}>
-                    {userName} 和 {betPartner} 打賭 $ {stake}
-                    <br />
-                    DueDate: {firstTenChars}
+                <div className="text-center m-0">
+                  <>
+                  <Typography className="p-2" variant="h5" style={{ color: '#263238', fontFamily: "Monsterrat" }}>
+                    {userName} 和 {betPartner} 賭了
                   </Typography>
-                </div>
-                <div className="text-center m-4">
+                
+                <Typography
+                  variant="h5"
+                  
+                  style={{
+                    border: "2px solid #fdd835",
+                    padding: "8px",
+                    borderRadius: "10px", // 添加边框角弧度
+                    backgroundColor: "rgba(260, 200, 45)", // 添加背景色
+                    fontFamily: "Monsterrat",
+                    width: "50%",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                >
+                {stake} 枚說說幣
+                </Typography>
+                  <Typography className="p-2" variant="h5" style={{ color: '#263238', fontFamily: "Monsterrat" }}>
+                    到期日： {firstTenChars}
+                  </Typography>
+                  </>
                 </div>
               </>
             )}
