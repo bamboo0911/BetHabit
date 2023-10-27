@@ -44,6 +44,10 @@ export default function habitItem({
   };
 
   useEffect(() => {
+    getStatus();
+  }, []);
+
+  useEffect(() => {
     getResult(returnResult);
   }, [returnResult]);
 
@@ -58,7 +62,6 @@ export default function habitItem({
   const checkedDay = checkedValues.length;
   const finishedRate = Math.ceil((checkedDay / totalDay) * 100);
 
-  
   const caculateProgress = () => {
     const today = new Date();
     const createDateObj = new Date(createDate.slice(0, 10));
@@ -80,13 +83,17 @@ export default function habitItem({
       >
         <div className="sm:flex sm:justify-between items-center p-4 sm:items-center">
           <div>
-            <div className="text-1xl md:text-2xl mb-1">{habitTitle}</div>
-            <div className="mb-2">
-              進度 {caculateProgress().passedDays} 天 /{" "}
-              {caculateProgress().totalDays} 天 (剩餘 {caculateProgress().leftDays}{" "}
-              天)
-            </div>
-            <p>已完成 {finishedRate}%</p>
+            <div className="text-2xl md:text-3xl mb-2">{habitTitle}</div>
+            {status === "uncheck" || status === "checked" ? (
+              <div className="mb-2">
+                進度 {caculateProgress().passedDays} 天 /{" "}
+                {caculateProgress().totalDays} 天 (剩餘{" "}
+                {caculateProgress().leftDays} 天)
+              </div>
+            ) : (
+              <div className="mb-2">已截止</div>
+            )}
+            <p className="mb-2">簽到率 {finishedRate} %</p>
             <Progress color="orange" value={finishedRate} size="lg" />
           </div>
           <div>
@@ -99,7 +106,7 @@ export default function habitItem({
                   color="orange"
                   variant="text"
                   onClick={handleShareHabit}
-                  className="ml-2 text-lg"
+                  className="text-lg ml-0 bd"
                 >
                   分享習慣
                 </Button>
@@ -107,14 +114,19 @@ export default function habitItem({
             )}
             {status === "checked" && (
               <>
-                <Button className="text-lg" color="green" variant="outlined" disabled="true" >
+                <Button
+                  className="text-lg"
+                  color="green"
+                  variant="outlined"
+                  disabled="true"
+                >
                   已簽到
                 </Button>
                 <Button
                   color="orange"
                   variant="text"
                   onClick={handleShareHabit}
-                  className="ml-2 text-lg"
+                  className="text-lg ml-0 bd"
                 >
                   分享習慣
                 </Button>
@@ -122,14 +134,19 @@ export default function habitItem({
             )}
             {status === "close" && (
               <>
-                <Button className="text-lg" color="orange" variant="text" onClick={handleCalculate}>
+                <Button
+                  className="text-lg"
+                  color="orange"
+                  variant="text"
+                  onClick={handleCalculate}
+                >
                   結算
                 </Button>
                 <Button
                   color="orange"
                   variant="text"
                   onClick={handleShareHabit}
-                  className="text-lg ml-2"
+                  className="text-lg ml-0 bd"
                 >
                   分享習慣
                 </Button>
@@ -137,14 +154,23 @@ export default function habitItem({
             )}
             {status === "win" && (
               <>
-                <Button className="text-lg" color="black" variant="text" disabled="true" size="lg">
-                  贏了
+                <Button
+                  color="black"
+                  variant="text"
+                  disabled="true"
+                  size="lg"
+                  className="text-lg"
+                >
+                  贏了{" "}
+                  {returnResult &&
+                    Object.keys(returnResult).length !== 0 &&
+                    returnResult.stake}
                 </Button>
                 <Button
                   color="orange"
                   variant="text"
                   onClick={handleShareResult}
-                  className="text-lg ml-2"
+                  className="text-lg ml-0 bd"
                 >
                   分享結果
                 </Button>
@@ -152,8 +178,17 @@ export default function habitItem({
             )}
             {status === "lose" && (
               <>
-                <Button className="text-lg" color="black" variant="text" disabled="true" size="lg">
-                  輸慘了
+                <Button
+                  color="black"
+                  variant="text"
+                  disabled="true"
+                  size="lg"
+                  className="text-lg"
+                >
+                  輸了{" "}
+                  {returnResult &&
+                    Object.keys(returnResult).length !== 0 &&
+                    returnResult.stake}
                 </Button>
                 <Button
                   color="orange"
