@@ -44,6 +44,10 @@ export default function habitItem({
   };
 
   useEffect(() => {
+    getStatus();
+  }, []);
+
+  useEffect(() => {
     getResult(returnResult);
   }, [returnResult]);
 
@@ -79,13 +83,17 @@ export default function habitItem({
       >
         <div className="sm:flex sm:justify-between items-center p-4 sm:items-center">
           <div>
-            <div className="text-1xl md:text-2xl mb-1">{habitTitle}</div>
-            <div className="mb-2">
-              進度 {caculateProgress().passedDays} 天 /{" "}
-              {caculateProgress().totalDays} 天 (剩餘 {caculateProgress().leftDays}{" "}
-              天)
-            </div>
-            <p>已完成 {finishedRate}%</p>
+            <div className="text-1xl md:text-2xl mb-2">{habitTitle}</div>
+            {status === "uncheck" || status === "checked" ? (
+              <div className="mb-2">
+                進度 {caculateProgress().passedDays} 天 /{" "}
+                {caculateProgress().totalDays} 天 (剩餘{" "}
+                {caculateProgress().leftDays} 天)
+              </div>
+            ) : (
+              <div className="mb-2">已截止</div>
+            )}
+            <p className="mb-2">簽到率 {finishedRate} %</p>
             <Progress color="orange" value={finishedRate} size="lg" />
           </div>
           <div>
@@ -137,7 +145,10 @@ export default function habitItem({
             {status === "win" && (
               <>
                 <Button color="black" variant="text" disabled="true" size="lg">
-                  勝利
+                  贏了{" "}
+                  {returnResult &&
+                    Object.keys(returnResult).length !== 0 &&
+                    returnResult.stake}
                 </Button>
                 <Button
                   color="orange"
@@ -152,7 +163,10 @@ export default function habitItem({
             {status === "lose" && (
               <>
                 <Button color="black" variant="text" disabled="true" size="lg">
-                  輸了
+                  輸了{" "}
+                  {returnResult &&
+                    Object.keys(returnResult).length !== 0 &&
+                    returnResult.stake}
                 </Button>
                 <Button
                   color="orange"
