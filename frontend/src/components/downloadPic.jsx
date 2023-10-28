@@ -16,9 +16,9 @@ export default function DownloadButton({ setIsImage, isImage }) {
   };
 
   return (
-    <CardFooter className="pt-0 mt-10 max-w-[15rem] mx-auto">
+    <CardFooter className="py-2 m-0 max-w-[15rem] mx-auto">
       {isImage && (
-        <Button onClick={downloadImage} variant="gradient" fullWidth>
+        <Button color="deep-orange" onClick={downloadImage} variant="gradient" fullWidth>
           DOWNLOAD IMAGE!
         </Button>
       )}

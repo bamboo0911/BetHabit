@@ -72,8 +72,8 @@ export default function DialogWithForm({ open, handleOpen }) {
               </Typography>
             )}
 
-            <Typography variant="h4" color="blue-gray">
-              {next ? "Create Bet" : "Create Your Habit"}
+            <Typography variant="h3" color="blue-gray">
+              {next ? "確認打賭內容" : "建立你的習慣"}
             </Typography>
             <Typography
               className="mb-3 font-normal"
@@ -81,14 +81,14 @@ export default function DialogWithForm({ open, handleOpen }) {
               color="gray"
             >
               {next
-                ? "Enter who you want to bet with and the stake."
-                : "Enter the habit you want to create and the due date."}
+                ? "輸入打賭的對象以及賭注大小"
+                : "輸入習慣的名稱以及到期日"}
             </Typography>
             <Typography className="-mb-2" variant="h6">
-              {next ? "Bet Partner" : "Habit Title"}
+              {next ? "打賭的對象" : "習慣名稱"}
             </Typography>
             <Input
-              label={next ? "Bet Partner" : "Habit Title"}
+              label={next ? "想跟誰打賭？" : "想養成什麼習慣呢？"}
               size="lg"
               value={next ? betPartner : habitTitle}
               onChange={(e) =>
@@ -98,11 +98,11 @@ export default function DialogWithForm({ open, handleOpen }) {
               }
             />
             <Typography className="-mb-2" variant="h6">
-              {next ? "Stake" : "Due Date"}
+              {next ? "賭注大小" : "到期日"}
             </Typography>
             {next ? (
               <Input
-                label="stake"
+                label="要賭多少呢？"
                 size="lg"
                 value={stake}
                 onChange={(e) => setStake(e.target.value)}
@@ -119,23 +119,24 @@ export default function DialogWithForm({ open, handleOpen }) {
               />
             )}
           </CardBody>
-          <CardFooter className="pt-0">
+          <CardFooter className="pt-0" >
             {isMutating ? (
               <div className=" flex justify-center">
                 <Spinner className="h-10 w-10 text-gray-900/50" />
               </div>
             ) : (
               <Button
+                color="deep-orange"
                 variant="gradient"
                 onClick={next ? handleAddHabit : handleNext}
                 fullWidth
               >
-                {next ? "Create!" : "Next"}
+                {next ? "建立！" : "下一步，建立賭注！"}
               </Button>
             )}
 
             <Typography variant="small" className="mt-4 flex justify-center">
-              {next ? "Let go and create habits!" : "Next, plan your bet!"}
+              {next ? "下好離手，開賭啦～" : "" }
             </Typography>
           </CardFooter>
         </Card>

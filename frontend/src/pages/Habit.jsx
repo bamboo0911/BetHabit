@@ -52,7 +52,7 @@ export default function Habit() {
 
   return (
     <>
-      <div className="flex h-screen overflow-hidden">
+      <div className="flex h-screen overflow-hidden bg-slate-100">
         <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
           <header className="absolute inset-x-0 top-0 z-50">
             <nav
@@ -74,7 +74,7 @@ export default function Habit() {
                 {/* Date */}
                 <div className="relative">
                   <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-1">
-                    Today
+                    今天
                   </h1>
                   <p className="dark:text-indigo-200">
                     {date.toLocaleDateString()}
@@ -122,17 +122,19 @@ export default function Habit() {
                     >
                       <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
                     </svg>
-                    <span className="hidden xs:block ml-2">Add new habit</span>
+                    <span className="hidden text-lg xs:block ml-2">
+                      建立新習慣
+                    </span>
                   </button>
                 </div>
               </div>
               {/* Unchecked Habit */}
               <div className="sm:flex sm:justify-start sm:items-center mb-4">
-                <p className="text-1xl md:text-2xl dark:text-indigo-200">
-                  Unchecked
+                <p className="text-1xl md:text-3xl dark:text-indigo-200">
+                  尚未簽到
                 </p>
               </div>
-              <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/10 mb-5">
+              <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/20 mb-5">
                 {data
                   ?.filter((item) => item.status === "uncheck")
                   .map((item) => (
@@ -154,11 +156,11 @@ export default function Habit() {
               </div>
               {/* Checked Habit */}
               <div className="sm:flex sm:justify-start sm:items-center mb-4">
-                <p className="text-1xl md:text-2xl dark:text-indigo-200">
-                  Checked
+                <p className="text-1xl md:text-3xl dark:text-indigo-200">
+                  今日已簽到
                 </p>
               </div>
-              <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/10 mb-5">
+              <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/20 mb-5">
                 {data
                   ?.filter((item) => item.status === "checked")
                   .map((item) => (
@@ -180,11 +182,11 @@ export default function Habit() {
               </div>
               {/* To Close */}
               <div className="sm:flex sm:justify-start sm:items-center mb-4">
-                <p className="text-1xl md:text-2xl dark:text-indigo-200">
-                  To Close
+                <p className="text-1xl md:text-3xl dark:text-indigo-200">
+                  待結算
                 </p>
               </div>
-              <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/10 mb-5">
+              <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/20 mb-5">
                 {data
                   ?.filter((item) => item.status === "close")
                   .map((item) => (
@@ -206,11 +208,11 @@ export default function Habit() {
               </div>
               {/* Closed Habit */}
               <div className="sm:flex sm:justify-start sm:items-center mb-4">
-                <p className="text-1xl md:text-2xl dark:text-indigo-200">
-                  Closed
+                <p className="text-1xl md:text-3xl dark:text-indigo-200">
+                  已完成
                 </p>
               </div>
-              <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/10 mb-5">
+              <div className="grid grid-cols-12 gap-6 py-4 border-t border-gray-900/20 mb-5">
                 {data
                   ?.filter(
                     (item) => item.status === "win" || item.status === "lose"
