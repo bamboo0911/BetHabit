@@ -9,7 +9,7 @@ import {
   Dialog,
 } from "@material-tailwind/react";
 import FooterWithSocialLinks from "./shareFooter";
-import DownloadButton from "./downloadpic";
+import DownloadButton from "./downloadPic";
 import User1 from "../images/cutecat.jpg";
 import User2 from "../images/yawningcat.jpg";
 
