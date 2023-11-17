@@ -1,4 +1,5 @@
 import {
+  clerkCreate,
   getUser,
   postUser,
 } from "../controllers/user.js";
@@ -6,6 +7,8 @@ import express from "express";
 
 const router = express.Router();
 
+// POST /user/clerkCreate
+router.post("/clerkCreate", clerkCreate);
 // POST /user/:userid
 router.post("/:userid", postUser);
 // GET /user/:userid
