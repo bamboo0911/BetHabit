@@ -38,11 +38,6 @@ app.use("/api/habit", HabitRoutes);
 app.use("/api/bet", BetRoutes);
 app.use("/api/user", UserRoutes);
 
-// Test function for entry point
-app.head("/", (req, res) => {
-  res.status(200).send("Vercel up and running.")
-})
-
 // Connect to MongoDB
 const mongooseOptions = {
   useNewUrlParser: true,
