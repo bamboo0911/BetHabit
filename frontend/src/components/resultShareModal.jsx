@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import FooterWithSocialLinks from "./shareFooter";
-import DownloadButton from "./downloadpic";
+import DownloadButton from "./downloadPic";
 import Winner from "../images/IMG_3909.jpg";
 import Loser from "../images/IMG_3863.jpg";
 
