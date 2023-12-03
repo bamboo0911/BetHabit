@@ -10,7 +10,7 @@ import BetRoutes from "./api/routes/bets.js";
 import UserRoutes from "./api/routes/user.js";
 
 // 每日刷新
-import { setInterval } from "timers";
+import { CronJob } from 'cron';
 import { resetDailyStatus } from "./api/utils/resetDailyStatus.js"; // 實現重置簽到狀態的邏輯
 
 import { env } from "./api/utils/env.js";
@@ -52,27 +52,24 @@ const mongooseOptions = {
 
 mongoose
   .connect(env.MONGO_URL, mongooseOptions)
-  .then(() => {
-    setInterval(() => {
-      const now = new Date();
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      console.log(`Minute pass ${hours}: ${minutes}`);
-      // 檢查是否達到每日重置時間(時間可以自己改)，但是一天一次就好，多跑也是沒差啦
-      if (hours === 16 && minutes === 28) {
-        // 執行重置簽到狀態的邏輯
-        resetDailyStatus();
-      }
-    }, 60000); // 每分鐘檢查一次
-
+  .then(async () => {
     app.listen(env.PORT, () =>
       console.log(`Server running on port http://localhost:${env.PORT}`)
     );
     // If the connection is successful, we will see this message in the console.
     console.log("Connected to MongoDB");
+    const resetDaily = new CronJob(
+      '0 0 * * *', // resets daily at 0 am
+      await resetDailyStatus(), // onTick: run the designated function
+      () => console.log(`It's now ${new Date().toString}, status reset completed.`), // onComplete
+      true, // start
+      'Asia/Taipei'
+    )
+    resetDaily.start() // just make sure that it runs.
+    console.log("Daily reset scheduled.")
   })
   .catch((error) => {
     // Catch any errors that occurred while starting the server
-    console.log("Failed to connect to MongoDB");
+    console.log("Something went wrong.");
     console.log(error.message);
   });
