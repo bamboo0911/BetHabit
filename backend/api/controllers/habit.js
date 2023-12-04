@@ -32,6 +32,7 @@ export const getHabit = async (req, res) => {
 };
 
 // POST /habit/:userId
+// TODO: Add multiple bet partners, bundle stake and betPartner
 export const postHabit = async (req, res) => {
   const { userid } = req.params;
   const { dueDate, habitTitle, stake, betPartner } = req.body;
