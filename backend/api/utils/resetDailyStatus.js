@@ -48,6 +48,6 @@ export const resetDailyStatus = async () => {
     getTodayStatus(habit);
   });
 
-  var timeNow = new Date()
-  console.log(`It's now ${timeNow.toString}, status reset completed.`)
+  var timeNow = new Date().toISOString
+  console.log(`It's now ${timeNow}, status reset completed.`)
 };
