@@ -66,7 +66,7 @@ mongoose
       'Asia/Taipei'
     )
     resetDaily.start() // just make sure that it runs.
-    console.log("Daily reset scheduled.")
+    console.log(`Daily reset scheduled for ${resetDaily.nextDate().toISO()}`)
   })
   .catch((error) => {
     // Catch any errors that occurred while starting the server
