@@ -4,11 +4,11 @@ import mongoose from "mongoose";
 import { genericErrorHandler } from "../utils/errors.js";
 
 // POST /user/clerkCreate
-export const clerkCreate = async(req, res) => {
+export const clerkCreate = async (req, res) => {
   const data = req.body.data;
-  const userId = data.id
-  const userName = data.username
-  const lastLoginTime = data.last_sign_in_at
+  const userId = data.id;
+  const userName = data.username;
+  const lastLoginTime = data.last_sign_in_at;
 
   try {
     // Check if user already exists
@@ -21,7 +21,6 @@ export const clerkCreate = async(req, res) => {
       userId: userId,
       userName: userName,
       lastLoginTime: lastLoginTime,
-      saysayPoint: 200,
     };
 
     await UserSchema.create(newUser);
@@ -30,7 +29,7 @@ export const clerkCreate = async(req, res) => {
   } catch (error) {
     genericErrorHandler(error, res);
   }
-}
+};
 
 // POST /user/:userid
 export const postUser = async (req, res) => {
@@ -56,7 +55,6 @@ export const postUser = async (req, res) => {
       userId: userid,
       userName: userName,
       lastLoginTime: new Date(),
-      saysayPoint: 200,
     };
 
     await UserSchema.create(newUser);
@@ -79,10 +77,13 @@ export const getUser = async (req, res) => {
     const user = await UserSchema.findOne({ userId: userid });
 
     if (!user) {
-      return res.status(404).json({ error: "User not found"});
+      return res.status(404).json({ error: "User not found" });
     }
 
-    const userData = {userName: user.userName, saysayPoint: user.saysayPoint};
+    const userData = {
+      userName: user.userName,
+      lastLoginTime: user.lastLoginTime,
+    };
 
     res.status(200).json(userData);
   } catch (error) {

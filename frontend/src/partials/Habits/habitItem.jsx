@@ -1,66 +1,29 @@
-import { useEffect } from "react";
 import { Button, Progress } from "@material-tailwind/react";
 import useDailyCheck from "../../hooks/habit/useDailyCheck";
-import useGetStatus from "../../hooks/habit/useHabitStatus";
+import useCloseHabit from "../../hooks/habit/useCloseHabit";
 
 export default function habitItem({
-  habitTitle,
-  dueDate,
   habitId,
+  habitTitle,
   status,
+  dueDate,
   createDate,
-  record,
-  openCloseHabitModal,
   openResultShareModal,
   openHabitShareModal,
-  getResult,
-  getIsMutating,
+  setSharedHabitId,
 }) {
   const { trigger: dailyCheck } = useDailyCheck(habitId);
-  const {
-    result: returnResult,
-    trigger: getStatus,
-    isMutating,
-  } = useGetStatus(habitId);
+  const { trigger: closeHabit } = useCloseHabit(habitId);
 
   const handleCheck = async () => {
     await dailyCheck();
     window.location.reload();
   };
 
-  const handleCalculate = async () => {
-    await getStatus();
-    openCloseHabitModal();
+  const handleClose = async () => {
+    await closeHabit();
+    window.location.reload();
   };
-
-  const handleShareResult = async () => {
-    await getStatus();
-    openResultShareModal();
-  };
-
-  const handleShareHabit = async () => {
-    await getStatus();
-    openHabitShareModal();
-  };
-
-  useEffect(() => {
-    getStatus();
-  }, []);
-
-  useEffect(() => {
-    getResult(returnResult);
-  }, [returnResult]);
-
-  useEffect(() => {
-    getIsMutating(isMutating);
-  }, [isMutating]);
-
-  // console.log("record", record);
-  const checkValues = record.map((item) => item.checked);
-  const totalDay = checkValues.length;
-  const checkedValues = checkValues.filter((value) => value === true);
-  const checkedDay = checkedValues.length;
-  const finishedRate = Math.ceil((checkedDay / totalDay) * 100);
 
   const caculateProgress = () => {
     const today = new Date();
@@ -71,8 +34,18 @@ export default function habitItem({
     const passedTimes = Math.abs(today - createDateObj);
     const passedDays = Math.ceil(passedTimes / (1000 * 60 * 60 * 24));
     const leftDays = totalDays - passedDays;
+    const progressRate = Math.ceil((passedDays / totalDays) * 100);
+    return { passedDays, totalDays, leftDays, progressRate };
+  };
 
-    return { passedDays, totalDays, leftDays };
+  const handleHabitShare = () => {
+    setSharedHabitId(habitId);
+    openHabitShareModal(true);
+  };
+
+  const handleResultShare = () => {
+    setSharedHabitId(habitId);
+    openResultShareModal(true);
   };
 
   return (
@@ -83,6 +56,9 @@ export default function habitItem({
       >
         <div className="sm:flex sm:justify-between items-center p-4 sm:items-center">
           <div>
+            <div className="text-1xl md:text-2xl mb-2">
+              開始日：{createDate.slice(0, 10)}
+            </div>
             <div className="text-2xl md:text-3xl mb-2">{habitTitle}</div>
             {status === "uncheck" || status === "checked" ? (
               <div className="mb-2">
@@ -93,8 +69,11 @@ export default function habitItem({
             ) : (
               <div className="mb-2">已截止</div>
             )}
-            <p className="mb-2">簽到率 {finishedRate} %</p>
-            <Progress color="orange" value={finishedRate} size="lg" />
+            <Progress
+              color="orange"
+              value={caculateProgress().progressRate}
+              size="lg"
+            />
           </div>
           <div>
             {status === "uncheck" && (
@@ -105,10 +84,10 @@ export default function habitItem({
                 <Button
                   color="orange"
                   variant="text"
-                  onClick={handleShareHabit}
+                  onClick={handleHabitShare}
                   className="text-lg ml-0 bd"
                 >
-                  分享習慣
+                  查看賭注
                 </Button>
               </>
             )}
@@ -125,30 +104,29 @@ export default function habitItem({
                 <Button
                   color="orange"
                   variant="text"
-                  onClick={handleShareHabit}
+                  onClick={handleHabitShare}
                   className="text-lg ml-0 bd"
                 >
-                  分享習慣
+                  查看賭注
                 </Button>
               </>
             )}
-            {status === "close" && (
+            {status === "due" && (
               <>
                 <Button
                   className="text-lg"
                   color="orange"
-                  variant="text"
-                  onClick={handleCalculate}
+                  onClick={handleClose}
                 >
                   結算
                 </Button>
                 <Button
                   color="orange"
                   variant="text"
-                  onClick={handleShareHabit}
+                  onClick={handleHabitShare}
                   className="text-lg ml-0 bd"
                 >
-                  分享習慣
+                  查看賭注
                 </Button>
               </>
             )}
@@ -161,18 +139,15 @@ export default function habitItem({
                   size="lg"
                   className="text-lg"
                 >
-                  贏了{" "}
-                  {returnResult &&
-                    Object.keys(returnResult).length !== 0 &&
-                    returnResult.stake}
+                  贏了!
                 </Button>
                 <Button
                   color="orange"
                   variant="text"
-                  onClick={handleShareResult}
+                  onClick={handleResultShare}
                   className="text-lg ml-0 bd"
                 >
-                  分享結果
+                  查看結果
                 </Button>
               </>
             )}
@@ -185,18 +160,15 @@ export default function habitItem({
                   size="lg"
                   className="text-lg"
                 >
-                  輸了{" "}
-                  {returnResult &&
-                    Object.keys(returnResult).length !== 0 &&
-                    returnResult.stake}
+                  輸了!
                 </Button>
                 <Button
                   color="orange"
                   variant="text"
-                  onClick={handleShareResult}
+                  onClick={handleResultShare}
                   className="text-lg ml-0 bd"
                 >
-                  分享結果
+                  查看結果
                 </Button>
               </>
             )}

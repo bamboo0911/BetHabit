@@ -1,22 +1,25 @@
 import { get } from "mongoose";
 import {
-  getHabit,
-  postHabit,
-  putHabit,
-  getHabitStatus,
+  getAllHabits,
+  createHabit,
+  dailyCheckHabit,
+  closeHabit,
+  shareHabit,
 } from "../controllers/habit.js";
 import express from "express";
 
 const router = express.Router();
 
 // GET /habit/:userid
-router.get("/:userid", getHabit);
+router.get("/:userid", getAllHabits);
 // POST /habit/:userid
-router.post("/:userid", postHabit);
+router.post("/:userid", createHabit);
 // PUT /habit/dailycheck/:habitid
-router.put("/dailycheck/:habitid", putHabit);
-// PUt /habit/getstatus/:habitid
-router.put("/getstatus/:habitid", getHabitStatus);
+router.put("/dailycheck/:habitid", dailyCheckHabit);
+// PUt /habit/close/:habitid
+router.put("/close/:habitid", closeHabit);
+// GET /habit/share/:habitid
+router.get("/share/:habitid", shareHabit);
 
 /**
  * @swagger
@@ -68,12 +71,13 @@ router.put("/getstatus/:habitid", getHabitStatus);
  *                 format: date-time
  *               habitTitle:
  *                 type: string
- *               stake:
- *                 type: integer
- *                 format: int64
- *                 minimum: 0
- *               betPartner:
- *                 type: string
+ *               bets:
+ *                type: array
+ *                items: object
+ *                properties:
+ *                  betPartner: string
+ *                  userStake: string
+ *                  partnerStake: string
  *     responses:
  *       '200':
  *         description: Successfully create the habit.
@@ -108,7 +112,7 @@ router.put("/getstatus/:habitid", getHabitStatus);
 
 /**
  * @swagger
- * /api/habit/getstatus/{habitid}:
+ * /api/habit/close/{habitid}:
  *   put:
  *     summary: Calculate habid to win or lose.
  *     tags:
@@ -128,4 +132,28 @@ router.put("/getstatus/:habitid", getHabitStatus);
  *       '404':
  *         description: Habit not found.
  */
+
+/**
+ * @swagger
+ * /api/habit/share/{habitid}:
+ *  get:
+ *   summary: Share the habit to social media.
+ *   tags:
+ *     - Habit
+ *   parameters:
+ *       - in: path
+ *         name: habitid
+ *         required: true
+ *         description: Enter the habitid.
+ *         schema:
+ *           type: string
+ *  responses:
+ *    '200':
+ *      description: Successfully get habit information.
+ *    '400':
+ *      description: Habit Id is required.
+ *    '404':
+ *      description: Habit not found.
+ */
+
 export default router;

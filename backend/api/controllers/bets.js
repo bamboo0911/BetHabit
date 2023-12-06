@@ -1,5 +1,5 @@
 import BetSchema from "../models/bet.js";
-import UserSchema from "../models/user.js"
+import UserSchema from "../models/user.js";
 import mongoose from "mongoose";
 
 import { genericErrorHandler } from "../utils/errors.js";
@@ -10,13 +10,13 @@ export const postBet = async (req, res) => {
   const { userid } = req.params;
 
   if (!userid) {
-    return res.status(400).json({ error: 'User ID is required' });
+    return res.status(400).json({ error: "User ID is required" });
   }
 
-  const user = await UserSchema.findOne({userId: userid});
+  const user = await UserSchema.findOne({ userId: userid });
 
   if (!user) {
-    return res.status(404).json({ error: 'User not found' });
+    return res.status(404).json({ error: "User not found" });
   }
 
   try {
@@ -24,7 +24,7 @@ export const postBet = async (req, res) => {
       betId: new mongoose.Types.ObjectId(),
       userId: userid,
       stake: 0,
-      betPartner: ""
+      betPartner: "",
     });
 
     await newBet.save();
@@ -42,12 +42,12 @@ export const putBet = async (req, res) => {
   const { stake, betPartner } = req.body;
 
   if (!betid) {
-    return res.status(400).json({ error: 'Bet ID is required' });
+    return res.status(400).json({ error: "Bet ID is required" });
   }
 
-  const bet = await BetSchema.findOne({betId: betid});
+  const bet = await BetSchema.findOne({ betId: betid });
   if (!bet) {
-    return res.status(404).json({ error: 'Bet not found' });
+    return res.status(404).json({ error: "Bet not found" });
   }
 
   try {
