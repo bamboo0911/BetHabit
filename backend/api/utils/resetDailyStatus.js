@@ -33,7 +33,7 @@ const getTodayStatus = async (habit) => {
   } else if (aHabit.status === "due") {
     return "due";
   } else {
-    processReset(aHabit);
+    await processReset(aHabit);
     return;
   }
 }
@@ -43,11 +43,11 @@ export const resetDailyStatus = async () => {
   const habitStatus = await HabitSchema.find(
     {}, "habitId dueDate status");
 
-  habitStatus.forEach((habit) => {
+  habitStatus.forEach(async (habit) => {
     // 計算要是哪個status
-    getTodayStatus(habit);
+    await getTodayStatus(habit);
   });
 
-  var timeNow = new Date().toISOString
-  console.log(`It's now ${timeNow}, status reset completed.`)
+  var timeNow = new Date().toISOString()
+  console.log(`It's now ${timeNow}, status reset executing...`)
 };

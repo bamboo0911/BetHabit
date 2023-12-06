@@ -58,14 +58,14 @@ mongoose
     );
     // If the connection is successful, we will see this message in the console.
     console.log("Connected to MongoDB");
-    const resetDaily = new CronJob(
-      '30 0 * * *', // resets daily at 0:30 am, for test purposes
-      await resetDailyStatus(), // onTick: run the designated function
-      null, // onComplete
-      true, // start
-      'Asia/Taipei'
-    )
-    resetDaily.start() // just make sure that it runs.
+    const resetDaily = CronJob.from({
+      cronTime: '00 26 20 * * *',
+      onTick: async () => await resetDailyStatus(), // onTick: run the designated function
+      onComplete: null, // onComplete
+      timeZone: 'Asia/Taipei',
+      runOnInit: false
+    })
+    resetDaily.start()
     console.log(`Daily reset scheduled for ${resetDaily.nextDate().toISO()}`)
   })
   .catch((error) => {
