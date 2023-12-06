@@ -82,7 +82,9 @@ export default function Habit() {
                 </div>
                 {/* Add button */}
                 <div className="grid grid-flow-col sm:auto-cols-max sm:justify-end gap-4">
+                  
                   {/* saysayPoint */}
+                  {/* 
                   <div className="mx-auto flex max-w-xs flex-col gap-y-2">
                     <dd className="text-2xl font-semibold tracking-tight text-gray-900">
                       <p className="mr-1 text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">
@@ -111,6 +113,8 @@ export default function Habit() {
                       </svg>
                     </dt>
                   </div>
+                  */}
+
                   {/* Add new habit button */}
                   <button
                     className="btn bg-school hover:bg-orange-500 text-white duration-300"
