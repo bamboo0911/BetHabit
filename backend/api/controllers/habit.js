@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import { genericErrorHandler } from "../utils/errors.js";
 
 // GET /habit/:userid
-export const getHabit = async (req, res) => {
+export const getAllHabits = async (req, res) => {
   const { userid } = req.params;
 
   if (!userid) {
@@ -22,7 +22,7 @@ export const getHabit = async (req, res) => {
 
     const userHabits = await HabitSchema.find(
       { userId: userid },
-      "habitId betId dueDate status habitTitle createAt dateCheck"
+      "habitId dueDate status habitTitle createAt"
     );
 
     res.status(200).json(userHabits);
@@ -32,9 +32,9 @@ export const getHabit = async (req, res) => {
 };
 
 // POST /habit/:userId
-export const postHabit = async (req, res) => {
+export const createHabit = async (req, res) => {
   const { userid } = req.params;
-  const { dueDate, habitTitle, stake, betPartner } = req.body;
+  const { dueDate, habitTitle, bets } = req.body;
   console.log(req.body);
 
   if (!userid) {
@@ -48,16 +48,7 @@ export const postHabit = async (req, res) => {
   }
 
   try {
-    // create a Bet
-    const betId = new mongoose.Types.ObjectId();
-    const newBet = new BetSchema({
-      betId: betId,
-      userId: userid,
-      stake: stake,
-      betPartner: betPartner,
-    });
-    await newBet.save();
-
+    // 1. create a Habit
     // 日期處理 (create array for dateCheck)
     let beginDatetime = new Date();
     const endDate = new Date(`${dueDate}`);
@@ -72,30 +63,38 @@ export const postHabit = async (req, res) => {
       beginDatetime.setDate(beginDatetime.getDate() + 1);
     }
 
-    // create Habit with the bet above
     const newHabit = {
       habitId: new mongoose.Types.ObjectId(),
       userId: userid,
-      betId: betId,
       createAt: new Date(),
-      dueDate: dueDate,
+      dueDate: new Date(`${dueDate}`),
       status: "uncheck",
       dateCheck: dateList,
       habitTitle: habitTitle,
     };
     await HabitSchema.create(newHabit);
 
-    const { habitId, status } = newHabit;
-    res
-      .status(200)
-      .json({ habitId, betId, dueDate, status, habitTitle, stake, betPartner });
+    // 2. create Bets
+    bets.forEach(async (bet) => {
+      const newBet = {
+        betId: new mongoose.Types.ObjectId(),
+        habitId: newHabit.habitId,
+        betPartner: bet.betPartner,
+        userStake: bet.userStake,
+        partnerStake: bet.partnerStake,
+      };
+
+      await BetSchema.create(newBet);
+    });
+
+    res.status(200).json({ message: "Habit created" });
   } catch (error) {
     genericErrorHandler(error, res);
   }
 };
 
 // PUT /habit/dailycheck/:habitid
-export const putHabit = async (req, res) => {
+export const dailyCheckHabit = async (req, res) => {
   const { habitid } = req.params;
 
   if (!habitid) {
@@ -124,14 +123,15 @@ export const putHabit = async (req, res) => {
     }
     habit.status = "checked";
     await habit.save();
+
     res.status(200).json({ message: `Checked ${currentDate}` });
   } catch (error) {
     genericErrorHandler(error, res);
   }
 };
 
-// PUT /habit/getstatus/:habitid
-export const getHabitStatus = async (req, res) => {
+// PUT /habit/close/:habitid
+export const closeHabit = async (req, res) => {
   const { habitid } = req.params;
 
   if (!habitid) {
@@ -140,55 +140,63 @@ export const getHabitStatus = async (req, res) => {
 
   try {
     const habit = await HabitSchema.findOne({ habitId: habitid });
-    const user = await UserSchema.findOne({ userId: habit.userId });
-    const theBet = await BetSchema.findOne({ betId: habit.betId });
 
     if (!habit) {
       return res.status(404).json({ error: "Habit not found" });
     }
 
-    if (habit.status === "close") {
+    if (habit.status === "due") {
       // 判斷勝負
       let habitSuccess = "win";
       const checkedValues = habit.dateCheck.map((item) => item.checked);
-      console.log(checkedValues);
 
       if (checkedValues.some((value) => value === false)) {
         habitSuccess = "lose";
       }
 
-      habit.status = `${habitSuccess}`;
+      habit.status = habitSuccess;
       await habit.save();
-
-      if (user.saysayPoint) {
-        // 計算贏多少錢
-        const moneyChange =
-          habitSuccess === "win" ? theBet.stake : theBet.stake * -1;
-
-        user.saysayPoint = user.saysayPoint + moneyChange;
-
-        user.save();
-      }
+    } else {
+      return res.status(400).json({ error: "Status is not 'due'" });
     }
 
-    const checkValues = habit.dateCheck.map((item) => item.checked);
-    const totalDay = checkValues.length;
-    const checkedValues = checkValues.filter((value) => value === true);
-    const checkedDay = checkedValues.length;
-    const finishedRate = Math.ceil((checkedDay / totalDay) * 100);
+    res.status(200).json(habit.status);
+  } catch (error) {
+    genericErrorHandler(error, res);
+  }
+};
 
-    const targetHabit = {
+// GET /habit/share/:habitid
+export const shareHabit = async (req, res) => {
+  const { habitid } = req.params;
+
+  if (!habitid) {
+    return res.status(400).json({ error: "Habit Id is required" });
+  }
+
+  try {
+    const habit = await HabitSchema.findOne({ habitId: habitid });
+
+    if (!habit) {
+      return res.status(404).json({ error: "Habit not found" });
+    }
+
+    const user = await UserSchema.findOne({ userId: habit.userId });
+    const bets = await BetSchema.find({ habitId: habitid });
+
+    const shareInfo = {
+      userName: user.userName,
       habitTitle: habit.habitTitle,
       status: habit.status,
-      createDate: habit.createAt,
       dueDate: habit.dueDate,
-      finishedRate: finishedRate,
-      userName: user.userName,
-      betPartner: theBet.betPartner,
-      stake: theBet.stake,
+      bets: bets.map((bet) => ({
+        betPartner: bet.betPartner,
+        userStake: bet.userStake,
+        partnerStake: bet.partnerStake,
+      })),
     };
 
-    res.status(200).json(targetHabit);
+    res.status(200).json(shareInfo);
   } catch (error) {
     genericErrorHandler(error, res);
   }
