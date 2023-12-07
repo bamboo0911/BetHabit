@@ -81,9 +81,9 @@ export default function habitItem({
         key={habitId}
         className="flex  flex-col col-span-full bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700 rounded-lg"
       >
-        <div className="sm:flex sm:justify-between items-center p-4 sm:items-center">
+        <div className="w-full sm:flex justify-between items-center p-4">
           <div>
-            <div className="text-2xl md:text-3xl mb-2">{habitTitle}</div>
+            <div className="w-full text-2xl md:text-3xl mb-2">{habitTitle}</div>
             {status === "uncheck" || status === "checked" ? (
               <div className="mb-2">
                 進度 {caculateProgress().passedDays} 天 /{" "}
@@ -96,107 +96,109 @@ export default function habitItem({
             <p className="mb-2">簽到率 {finishedRate} %</p>
             <Progress color="orange" value={finishedRate} size="lg" />
           </div>
-          <div>
+          <div className="w-full flex justify-end m-2">
             {status === "uncheck" && (
               <>
-                <Button className="text-lg" color="green" onClick={handleCheck}>
-                  簽到
-                </Button>
                 <Button
                   color="orange"
                   variant="text"
                   onClick={handleShareHabit}
-                  className="text-lg ml-0 bd"
+                  className="text-lg ml-2 bd"
                 >
-                  分享習慣
+                  查看賭注
+                </Button>
+                <Button className="text-lg ml-2" color="green" onClick={handleCheck}>
+                  簽到
                 </Button>
               </>
             )}
             {status === "checked" && (
               <>
                 <Button
-                  className="text-lg"
+                  color="orange"
+                  variant="text"
+                  onClick={handleShareHabit}
+                  className="text-lg ml-2 bd"
+                >
+                  查看賭注
+                </Button>
+                <Button
+                  className="text-lg ml-2"
                   color="green"
                   variant="outlined"
                   disabled="true"
                 >
                   已簽到
                 </Button>
+              </>
+            )}
+            {status === "due" && (
+              <>
                 <Button
                   color="orange"
                   variant="text"
                   onClick={handleShareHabit}
-                  className="text-lg ml-0 bd"
+                  className="text-lg ml-2 bd"
                 >
-                  分享習慣
+                  查看賭注
                 </Button>
-              </>
-            )}
-            {status === "close" && (
-              <>
                 <Button
                   className="text-lg"
-                  color="orange"
+                  color="blue"
                   variant="text"
                   onClick={handleCalculate}
                 >
                   結算
                 </Button>
-                <Button
-                  color="orange"
-                  variant="text"
-                  onClick={handleShareHabit}
-                  className="text-lg ml-0 bd"
-                >
-                  分享習慣
-                </Button>
               </>
             )}
             {status === "win" && (
               <>
+              <div className="w-full flex justify-start sm:justify-end">
                 <Button
                   color="black"
                   variant="text"
                   disabled="true"
-                  size="lg"
-                  className="text-lg"
+                  className="text-lg m-0"
                 >
                   贏了{" "}
                   {returnResult &&
                     Object.keys(returnResult).length !== 0 &&
                     returnResult.stake}
                 </Button>
+                </div>
                 <Button
                   color="orange"
                   variant="text"
                   onClick={handleShareResult}
-                  className="text-lg ml-0 bd"
+                  className="text-lg bd whitespace-nowrap"
                 >
-                  分享結果
+                  查看賭注
                 </Button>
               </>
             )}
             {status === "lose" && (
               <>
+              <div className="w-full flex justify-start sm:justify-end">
                 <Button
                   color="black"
                   variant="text"
                   disabled="true"
-                  size="lg"
-                  className="text-lg"
+                  className="text-lg m-0"
                 >
                   輸了{" "}
                   {returnResult &&
                     Object.keys(returnResult).length !== 0 &&
                     returnResult.stake}
                 </Button>
+                </div>
                 <Button
                   color="orange"
                   variant="text"
                   onClick={handleShareResult}
-                  className="text-lg ml-0 bd"
+                  className="text-lg bd whitespace-nowrap"
                 >
-                  分享結果
+                  查看賭注
                 </Button>
               </>
             )}
