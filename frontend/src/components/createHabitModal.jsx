@@ -1,3 +1,4 @@
+import { PlusIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect } from "react";
 import {
   Button,
@@ -19,23 +20,37 @@ export default function DialogWithForm({ open, handleOpen }) {
 
   const [habitTitle, setHabitTitle] = useState("");
   const [dueDate, setDueDate] = useState("");
-  const [stake, setStake] = useState(0);
-  const [betPartner, setBetPartner] = useState("");
+  const [bets, setBets] = useState([
+    { betPartner: "", userStake: "", partnerStake: "" },
+  ]);
 
   const { trigger: addHabit, isMutating } = useAddHabit();
 
+  const addNewBet = () => {
+    setBets([...bets, { betPartner: "", userStake: "", partnerStake: "" }]);
+  };
+
+  const updateBet = (index, field, value) => {
+    const newBets = [...bets];
+    newBets[index][field] = value;
+    setBets(newBets);
+  };
+
   const handleAddHabit = async () => {
-    const stakeInt = parseInt(stake, 10);
+    const isAnyFieldEmpty = bets.some(
+      (bet) =>
+        bet.betPartner === "" || bet.userStake === "" || bet.partnerStake === ""
+    );
+    if (isAnyFieldEmpty) {
+      alert("請填寫所有欄位");
+      return;
+    }
+    console.log(bets);
     await addHabit({
-      dueDate: new Date(dueDate),
+      dueDate,
       habitTitle,
-      stake: stakeInt,
-      betPartner,
+      bets,
     });
-    setHabitTitle("");
-    setDueDate("");
-    setStake("");
-    setBetPartner("");
     handleOpen();
   };
 
@@ -44,8 +59,7 @@ export default function DialogWithForm({ open, handleOpen }) {
       setNext(false);
       setHabitTitle("");
       setDueDate("");
-      setStake("");
-      setBetPartner("");
+      setBets([{ betPartner: "", userStake: "", partnerStake: "" }]);
     }
   }, [open]);
 
@@ -55,7 +69,7 @@ export default function DialogWithForm({ open, handleOpen }) {
         size="xs"
         open={open}
         handler={handleOpen}
-        className="bg-transparent shadow-none"
+        className="bg-transparent shadow-none h-128 overflow-y-scroll"
       >
         <Card className="mx-auto w-full max-w-[24rem]">
           <CardBody className="flex flex-col gap-4">
@@ -75,51 +89,74 @@ export default function DialogWithForm({ open, handleOpen }) {
             <Typography variant="h3" color="blue-gray">
               {next ? "確認打賭內容" : "建立你的習慣"}
             </Typography>
-            <Typography
-              className="mb-3 font-normal"
-              variant="paragraph"
-              color="gray"
-            >
-              {next
-                ? "輸入打賭的對象以及賭注大小"
-                : "輸入習慣的名稱以及到期日"}
-            </Typography>
-            <Typography className="-mb-2" variant="h6">
-              {next ? "打賭的對象" : "習慣名稱"}
-            </Typography>
-            <Input
-              label={next ? "想跟誰打賭？" : "想養成什麼習慣呢？"}
-              size="lg"
-              value={next ? betPartner : habitTitle}
-              onChange={(e) =>
-                next
-                  ? setBetPartner(e.target.value)
-                  : setHabitTitle(e.target.value)
-              }
-            />
-            <Typography className="-mb-2" variant="h6">
-              {next ? "賭注大小" : "到期日"}
-            </Typography>
-            {next ? (
-              <Input
-                label="要賭多少呢？"
-                size="lg"
-                value={stake}
-                onChange={(e) => setStake(e.target.value)}
-              />
+
+            {!next ? (
+              <>
+                {/* Habit Title and Due Date Input */}
+                <Input
+                  label="想養成什麼習慣呢？"
+                  size="lg"
+                  value={habitTitle}
+                  onChange={(e) => setHabitTitle(e.target.value)}
+                />
+                <Typography className="-mb-2" variant="h6">
+                  到期日
+                </Typography>
+                <input
+                  type="date"
+                  name="dueDate"
+                  className="w-full border rounded"
+                  placeholder="What’s the date?"
+                  min={new Date().toISOString().split("T")[0]}
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                />
+              </>
             ) : (
-              <input
-                type="date"
-                name="dueDate"
-                className="w-full border rounded"
-                placeholder="What’s the date?"
-                min={new Date().fp_incr(1).toISOString().split("T")[0]}
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-              />
+              <>
+                {/* Bets Input */}
+                {bets.map((bet, index) => (
+                  <>
+                    <Typography className="-mb-2" variant="h6">
+                      打賭 {index + 1}
+                    </Typography>
+                    <div key={index} className="flex flex-col gap-2">
+                      <Input
+                        label="打賭對象"
+                        size="lg"
+                        value={bet.betPartner}
+                        onChange={(e) =>
+                          updateBet(index, "betPartner", e.target.value)
+                        }
+                      />
+                      <Input
+                        label="你的賭注"
+                        size="lg"
+                        value={bet.userStake}
+                        onChange={(e) =>
+                          updateBet(index, "userStake", e.target.value)
+                        }
+                      />
+                      <Input
+                        label="對方的賭注"
+                        size="lg"
+                        value={bet.partnerStake}
+                        onChange={(e) =>
+                          updateBet(index, "partnerStake", e.target.value)
+                        }
+                      />
+                    </div>
+                  </>
+                ))}
+                {/* 新增賭注按鈕 */}
+                <PlusIcon
+                  className=" m-auto h-6 w-6 cursor-pointer  text-white rounded-full bg-orange-500 hover:bg-orange-600"
+                  onClick={addNewBet}
+                />
+              </>
             )}
           </CardBody>
-          <CardFooter className="pt-0" >
+          <CardFooter className="pt-0">
             {isMutating ? (
               <div className=" flex justify-center">
                 <Spinner className="h-10 w-10 text-gray-900/50" />
@@ -136,7 +173,7 @@ export default function DialogWithForm({ open, handleOpen }) {
             )}
 
             <Typography variant="small" className="mt-4 flex justify-center">
-              {next ? "下好離手，開賭啦～" : "" }
+              {next ? "下好離手，開賭啦～" : ""}
             </Typography>
           </CardFooter>
         </Card>
