@@ -7,8 +7,10 @@ export default function useGetSharedHabit(habitId) {
   useEffect(() => {
     if (habitId !== "") {
       // For test purposes
-      setApiUrl(`http://localhost:3000/api/habit/share/${habitId}`);
-      // setApiUrl(`https://bet-habit-backend.vercel.app/api/habit/share/${habitId}`);
+      // setApiUrl(`http://localhost:3000/api/habit/share/${habitId}`);
+      setApiUrl(
+        `https://bet-habit-backend.vercel.app/api/habit/share/${habitId}`
+      );
     }
   }, [habitId]);
 
