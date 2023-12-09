@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Avatar,
   Button,
@@ -16,38 +16,17 @@ export default function DialogWithForm({
   open,
   handleOpen,
   sharedHabit,
-  isMutating,
+  isLoading,
 }) {
-  const [habitTitle, setHabitTitle] = useState("");
-  const [betPartner, setBetPartner] = useState("");
-  const [userName, setUserName] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [finishedRate, setFinishedRate] = useState("");
-  const [winner, setWinner] = useState("");
-  const [loser, setLoser] = useState("");
-  const [stake, setStake] = useState(0);
+
   const [isImage, setIsImage] = useState(false);
 
   useEffect(() => {
-    if (sharedHabit && Object.keys(sharedHabit).length !== 0 && open) {
-      const { habitTitle, betPartner, userName, dueDate, finishedRate, stake } =
-        sharedHabit;
-      setHabitTitle(habitTitle);
-      setBetPartner(betPartner);
-      setUserName(userName);
-      setDueDate(dueDate);
-      setFinishedRate(finishedRate);
-      setStake(stake);
-    }
-  }, [sharedHabit, open]);
+    if (sharedHabit && Object.keys(sharedHabit).length !== 0 && !open)
 
-  useEffect(() => {
-    if (sharedHabit && Object.keys(sharedHabit).length !== 0 && !open) {
+
       setIsImage(false);
-    }
-  }, [sharedHabit, open]);
-
-  const firstTenChars = dueDate.substring(0, 10);
+    }, [open]);
 
   return (
     <Dialog
@@ -55,7 +34,7 @@ export default function DialogWithForm({
       open={open}
       handler={handleOpen}
       className="bg-transparent shadow-none"
-      isLoaded={isMutating && !sharedHabit}
+      isLoaded={isLoading && !sharedHabit}
     >
       {sharedHabit && (
         <Card
@@ -81,30 +60,30 @@ export default function DialogWithForm({
                   <Typography
                     variant="h4"
                     style={{ color: "#263238", fontFamily: "Monsterrat" }}>
-                    {userName}正在養成
+                    {sharedHabit?.userName} 正在養成{" "}
                     </Typography>
                     <Typography
                     variant="h2"
                     style={{ color: "#263238", fontFamily: "Monsterrat" }}>
-                    {habitTitle}的習慣
+                    {sharedHabit?.habitTitle.toUpperCase()}的習慣
                     {/* {habitTitle.toUpperCase()}*/}
                   </Typography>
                 </div>
                 <div className="text-center">
                   <>
-                  <Typography
+                      <Typography
                       className="p-2 -mb-3"
                       variant="h5"
                       style={{ color: "#263238", fontFamily: "Monsterrat" }}
                     >
-                      {userName}
+                      {sharedHabit?.userName}
                       </Typography>
                       <Typography
                       className="p-2"
                       variant="h6"
                       style={{fontFamily: "Monsterrat" }}
                     >
-                      <span style={{ color: "#263238" }}>下注</span> <span style={{ color: "#F75928" }}>十杯十杯</span>
+                      <span style={{ color: "#263238" }}>下注{" "}</span> <span style={{ color: "#F75928" }}>{sharedHabit?.bets[0].userStake}</span>
                       </Typography>
                       <Typography
                       className="p-2"
@@ -118,21 +97,21 @@ export default function DialogWithForm({
                       variant="h5"
                       style={{ color: "#263238", fontFamily: "Monsterrat" }}
                     >
-                      {betPartner}
+                      {sharedHabit?.bets[0].betPartner}
                       </Typography>
                       <Typography
                       className="p-2"
                       variant="h6"
                       style={{ color: "#263238", fontFamily: "Monsterrat" }}
                     >
-                      <span style={{ color: "#263238" }}>下注</span> <span style={{ color: "#F75928" }}>一張 711 禮券</span>
+                      <span style={{ color: "#263238" }}>下注{" "}</span> <span style={{ color: "#F75928" }}>{sharedHabit?.bets[0].partnerStake}</span>
                     </Typography>
                     <Typography
                       className="p-2 my-3"
                       variant="h6"
                       style={{ color: "#263238", fontFamily: "Monsterrat" }}
                     >
-                      DUE： {firstTenChars}
+                      DUE： {sharedHabit?.dueDate.substring(0, 10)}
                     </Typography>
                   </>
                 </div>
@@ -145,7 +124,7 @@ export default function DialogWithForm({
           <FooterWithSocialLinks isImage={isImage} setIsImage={setIsImage} />
           */}
         </Card>
-      )}
+        )}
     </Dialog>
   );
 }

@@ -4,7 +4,7 @@ import HabitSchema from "../models/habit.js";
 // 獲取今日日期
 const today = new Date().toISOString().split('T')[0];
 
-const getTodayStauts = async (habit) => {
+const getTodayStatus = async (habit) => {
 
   // 處理status不是win/lose的情況(也就是如果是到期日+1, uncheck, checked進入這個函式)
   async function processReset(aHabit) {
@@ -33,7 +33,7 @@ const getTodayStauts = async (habit) => {
   } else if (aHabit.status === "due") {
     return "due";
   } else {
-    processReset(aHabit);
+    await processReset(aHabit);
     return;
   }
 }
@@ -43,9 +43,11 @@ export const resetDailyStatus = async () => {
   const habitStatus = await HabitSchema.find(
     {}, "habitId dueDate status");
 
-  habitStatus.forEach((habit) => {
+  habitStatus.forEach(async (habit) => {
     // 計算要是哪個status
-    getTodayStauts(habit);
+    await getTodayStatus(habit);
   });
 
+  var timeNow = new Date().toISOString()
+  console.log(`It's now ${timeNow}, status reset executing...`)
 };
