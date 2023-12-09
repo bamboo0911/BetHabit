@@ -5,15 +5,15 @@ import mongoose from "mongoose";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 
-import HabitRoutes from "./routes/habits.js";
-import BetRoutes from "./routes/bets.js";
-import UserRoutes from "./routes/user.js";
+import HabitRoutes from "./api/routes/habits.js";
+import BetRoutes from "./api/routes/bets.js";
+import UserRoutes from "./api/routes/user.js";
 
 // 每日刷新
 import { setInterval } from "timers";
-import { resetDailyStatus } from "./utils/resetDailyStatus.js"; // 實現重置簽到狀態的邏輯
+import { resetDailyStatus } from "./api/utils/resetDailyStatus.js"; // 實現重置簽到狀態的邏輯
 
-import { env } from "./utils/env.js";
+import { env } from "./api/utils/env.js";
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -37,6 +37,12 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/habit", HabitRoutes);
 app.use("/api/bet", BetRoutes);
 app.use("/api/user", UserRoutes);
+
+// Test function for entry point
+app.get("/", (req, res) => {
+  res.status(200).send("Vercel up and running.")
+})
+
 
 // Connect to MongoDB
 const mongooseOptions = {
