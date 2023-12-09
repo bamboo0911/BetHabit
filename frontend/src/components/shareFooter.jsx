@@ -44,6 +44,7 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
         <div className="mt-0 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 pb-5 md:flex-row md:justify-surround">
           <div className="flex gap-4 text-blue-gray-900 sm:justify-center">
             {isImage && (
+              
               <Typography
                 as="a"
                 href="https://www.facebook.com/"
@@ -63,6 +64,7 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
                 </svg>
               </Typography>
             )}
+
             <Typography
               as="a"
               className="opacity-80 transition-opacity hover:opacity-100"
@@ -86,6 +88,7 @@ export default function FooterWithSocialLinks({ setIsImage, isImage }) {
                 </>
               )}
             </Typography>
+
             {isImage && (
               <Typography
                 as="a"

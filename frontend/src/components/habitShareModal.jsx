@@ -10,8 +10,7 @@ import {
 } from "@material-tailwind/react";
 import FooterWithSocialLinks from "./shareFooter";
 import DownloadButton from "./downloadPic";
-import User1 from "../images/cutecat.jpg";
-import User2 from "../images/yawningcat.jpg";
+import Footer from "./footer";
 
 export default function DialogWithForm({
   open,
@@ -61,99 +60,90 @@ export default function DialogWithForm({
       {sharedHabit && (
         <Card
           className="mx-auto w-full max-w-[24rem]"
-          style={{ backgroundColor: "#fce6d4" }}
+          style={{ backgroundColor: "#FFFFFF" }}
         >
           <CardBody id="Share" className="flex flex-col gap-3">
             {!isImage && (
               <>
-                <div className="text-center m-2">
-                  <Typography variant="h5" style={{ color: "#263238" }}>
-                    BetHabit
+              {/* header */}
+              <div className="mb-4 modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+                <Typography variant="h5" className="font-medium leading-normal text-gray-800" id="exampleModalLabel">
+                  查看賭注
+                </Typography>
+              </div>
+              {/* content */}
+                <div className="text-center">
+                  <Typography variant="h4" className="font-black" style={{ color: "#F75928", fontFamily: "Roboto" }}>
+                    NOSAYSAY
+                  </Typography>
+                </div>
+                <div className="text-center ">
+                  <Typography
+                    variant="h4"
+                    style={{ color: "#263238", fontFamily: "Monsterrat" }}>
+                    {userName}正在養成
+                    </Typography>
+                    <Typography
+                    variant="h2"
+                    style={{ color: "#263238", fontFamily: "Monsterrat" }}>
+                    {habitTitle}的習慣
+                    {/* {habitTitle.toUpperCase()}*/}
                   </Typography>
                 </div>
                 <div className="text-center">
-                  <Typography
-                    variant="h2"
-                    style={{ color: "#263238", fontFamily: "Monsterrat" }}
-                  >
-                    {habitTitle.toUpperCase()}
-                  </Typography>
-                </div>
-                <div className="flex justify-between m-2">
-                  <div
-                    style={{
-                      textAlign: "center",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography variant="h5" style={{ color: "#01579b" }}>
-                      {userName}
-                    </Typography>
-                    <Avatar
-                      style={{ borderColor: "#01579b" }}
-                      size="xxl"
-                      variant="circular"
-                      alt="Winner"
-                      className="border-3 hover:z-30 focus:z-30 m-2"
-                      src={User1}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      textAlign: "center",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography variant="h5" style={{ color: "#01579b" }}>
-                      {betPartner}
-                    </Typography>
-                    <Avatar
-                      style={{ borderColor: "#01579b" }}
-                      size="xxl"
-                      variant="circular"
-                      alt="Loser"
-                      className="border-3 border-white hover:z-10 focus:z-10 m-2"
-                      src={User2}
-                    />
-                  </div>
-                </div>
-                <div className="text-center m-0">
                   <>
-                    <Typography
-                      className="p-2"
+                  <Typography
+                      className="p-2 -mb-3"
                       variant="h5"
                       style={{ color: "#263238", fontFamily: "Monsterrat" }}
                     >
-                      {userName} 和 {betPartner} 賭了
-                    </Typography>
-                    <Typography
-                      variant="h5"
-                      className="p-2 mx-auto w-1/2 rounded-lg"
-                      style={{
-                        backgroundColor: "rgba(260, 200, 45)", // 添加背景色
-                        fontFamily: "Monsterrat",
-                      }}
+                      {userName}
+                      </Typography>
+                      <Typography
+                      className="p-2"
+                      variant="h6"
+                      style={{fontFamily: "Monsterrat" }}
                     >
-                      {stake} 枚說說幣
+                      <span style={{ color: "#263238" }}>下注</span> <span style={{ color: "#F75928" }}>十杯十杯</span>
+                      </Typography>
+                      <Typography
+                      className="p-2"
+                      variant="h5"
+                      style={{ color: "#FF0000", fontFamily: "Monsterrat" }}
+                    >
+                      V.S.
+                      </Typography>
+                      <Typography
+                      className="p-2 -mb-3"
+                      variant="h5"
+                      style={{ color: "#263238", fontFamily: "Monsterrat" }}
+                    >
+                      {betPartner}
+                      </Typography>
+                      <Typography
+                      className="p-2"
+                      variant="h6"
+                      style={{ color: "#263238", fontFamily: "Monsterrat" }}
+                    >
+                      <span style={{ color: "#263238" }}>下注</span> <span style={{ color: "#F75928" }}>一張 711 禮券</span>
                     </Typography>
                     <Typography
                       className="p-2 my-3"
-                      variant="h5"
+                      variant="h6"
                       style={{ color: "#263238", fontFamily: "Monsterrat" }}
                     >
-                      到期日： {firstTenChars}
+                      DUE： {firstTenChars}
                     </Typography>
                   </>
                 </div>
               </>
             )}
           </CardBody>
+          <Footer/>
+          {/* 
           <DownloadButton isImage={isImage} setIsImage={setIsImage} />
           <FooterWithSocialLinks isImage={isImage} setIsImage={setIsImage} />
+          */}
         </Card>
       )}
     </Dialog>
