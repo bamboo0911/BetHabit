@@ -31,6 +31,7 @@ export default function DialogWithForm({
       handler={handleOpen}
       className="bg-transparent shadow-none"
       isLoaded={isLoading && !sharedHabit}
+      FooterWithSocialLinks 
     >
       <Card
         className="mx-auto w-full max-w-[24rem]"
