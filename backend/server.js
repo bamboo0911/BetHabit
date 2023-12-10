@@ -59,7 +59,7 @@ mongoose
     // If the connection is successful, we will see this message in the console.
     console.log("Connected to MongoDB");
     const resetDaily = CronJob.from({
-      cronTime: '00 26 20 * * *',
+      cronTime: '00 00 00 * * *',
       onTick: async () => await resetDailyStatus(), // onTick: run the designated function
       onComplete: null, // onComplete
       timeZone: 'Asia/Taipei',
