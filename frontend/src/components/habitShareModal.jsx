@@ -17,7 +17,7 @@ export default function DialogWithForm({
   open,
   handleOpen,
   sharedHabit,
-  isLoading,
+  isMutating,
 }) {
   const canvasRef = useRef(null);
   // 使用useState定义state变量
@@ -120,7 +120,7 @@ export default function DialogWithForm({
       open={open}
       handler={handleOpen}
       className="bg-transparent shadow-none"
-      isLoaded={isLoading && !sharedHabit}
+      isLoaded={isMutating && !sharedHabit}
     >
       {sharedHabit && ( // 如果有sharedHabit对象
         <Card
@@ -159,6 +159,8 @@ export default function DialogWithForm({
                   >
                     {sharedHabit?.userName} 正在養成{" "}
                   </Typography>
+                </div>
+                <div className="text-center ">
                   <Typography
                     variant="h2"
                     style={{ color: "#263238", fontFamily: "Monsterrat" }}
