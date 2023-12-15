@@ -23,6 +23,18 @@ export default function DialogWithForm({
   // 使用useState定义state变量
   const [isImage, setIsImage] = useState(false);
   const [activeBetIndex, setActiveBetIndex] = useState(0);
+  const [canvasImage, setCanvasImage] = useState(null);
+  const handleDownload = () => {
+    if (canvasImage) {
+      const link = document.createElement("a");
+      link.href = canvasImage;
+      link.download = "habit_image.png";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+  
 
   // 使用useEffect处理组件的副作用
   useEffect(() => {
@@ -51,7 +63,7 @@ export default function DialogWithForm({
       const context = canvas.getContext('2d');
   
       // Set canvas size
-      canvas.width = 400;
+      canvas.width = 350;
       canvas.height = 400;
     
       // Calculate center position for the text
@@ -108,12 +120,17 @@ export default function DialogWithForm({
       const dueDate = `DUE： ${sharedHabit?.dueDate.substring(0, 10)}`
       const dueDateWidth = context.measureText(dueDate).width;
       context.fillText(dueDate, centerX - dueDateWidth / 2, 390);
-    }, [sharedHabit, activeBetIndex]); // Include dependencies
+      
+      if (canvas) {
+        html2canvas(canvas).then((canvasImage) => {
+          setCanvasImage(canvasImage.toDataURL("image/png"));
+        });
+      }
+    }, [sharedHabit, activeBetIndex]);
 
     return null; // Ensure that a component is returned
   };
 
-  // 渲染Dialog组件
   return (
     <Dialog
       size="xs"
@@ -142,110 +159,66 @@ export default function DialogWithForm({
                 {/* content */} 
                 <canvas ref={canvasRef} />
                 <CanvasComponent />
-                {/* 這邊是原本網頁的程式碼
-                <div className="text-center">
-                  <Typography
-                    variant="h4"
-                    className="font-black"
-                    style={{ color: "#F75928", fontFamily: "Roboto" }}
-                  >
-                    NOSAYSAY
-                  </Typography>
-                </div>
-                <div className="text-center ">
-                  <Typography
-                    variant="h4"
-                    style={{ color: "#263238", fontFamily: "Monsterrat" }}
-                  >
-                    {sharedHabit?.userName} 正在養成{" "}
-                  </Typography>
-                </div>
-                <div className="text-center ">
-                  <Typography
-                    variant="h2"
-                    style={{ color: "#263238", fontFamily: "Monsterrat" }}
-                  >
-                    {sharedHabit?.habitTitle.toUpperCase()}的習慣
-                  </Typography>
-                </div>
-                <div className="text-center">
-                  <>
-                    <Typography
-                      className="p-2 -mb-3"
-                      variant="h5"
-                      style={{ color: "#263238", fontFamily: "Monsterrat" }}
-                    >
-                      {sharedHabit?.bets[activeBetIndex].userName}
-                    </Typography>
-                    <Typography
-                      className="p-2"
-                      variant="h6"
-                      style={{ fontFamily: "Monsterrat" }}
-                    >
-                      <span style={{ color: "#263238" }}>下注{" "}</span>{" "}
-                      <span style={{ color: "#F75928" }}>
-                        {sharedHabit?.bets[activeBetIndex].userStake}
-                      </span>
-                    </Typography>
-                    <Typography
-                      className="p-2"
-                      variant="h5"
-                      style={{ color: "#FF0000", fontFamily: "Monsterrat" }}
-                    >
-                      V.S.
-                    </Typography>
-                    <Typography
-                      className="p-2 -mb-3"
-                      variant="h5"
-                      style={{ color: "#263238", fontFamily: "Monsterrat" }}
-                    >
-                      {sharedHabit?.bets[activeBetIndex].betPartner}
-                    </Typography>
-                    <Typography
-                      className="p-2"
-                      variant="h6"
-                      style={{ color: "#263238", fontFamily: "Monsterrat" }}
-                    >
-                      <span style={{ color: "#263238" }}>下注{" "}</span>{" "}
-                      <span style={{ color: "#F75928" }}>
-                        {sharedHabit?.bets[activeBetIndex].partnerStake}
-                      </span>
-                    </Typography>
-                    <Typography
-                      className="p-2 my-3"
-                      variant="h6"
-                      style={{ color: "#263238", fontFamily: "Monsterrat" }}
-                    >
-                      DUE：{" "}
-                      {sharedHabit?.dueDate.substring(0, 10)}
-                    </Typography>
-                  </>
-                </div>
-              </>
-              */}
           </CardBody>
-          
           <footer
             style={{
               borderTop: "1px solid #ccc",
               padding: "20px",
               display: "flex",
-              justifyContent: "space-between",
+              flexDirection: "column", // 使用列方向的Flexbox布局
               alignItems: "center",
             }}
           >
-            <TriangleButton direction="left" onClick={handlePrevBet} />
-            <span
+            {/* 第一行 */}
+            <div 
               style={{
-                fontFamily: "Monsterrat",
-                color: "#263238",
-                fontWeight: "bold",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center", // 垂直居中对齐
+                width: "100%", // 100%宽度
               }}
             >
-              {activeBetIndex + 1}/{sharedHabit.bets.length}
-            </span>
-            <TriangleButton direction="right" onClick={handleNextBet} />
+              <TriangleButton direction="left" onClick={handlePrevBet} style={{ textAlign: "left" }} />
+              <span
+                style={{
+                  fontFamily: "Monsterrat",
+                  color: "#263238",
+                  fontWeight: "bold",
+                  textAlign: "center", // 调整为居中对齐
+                  flex: "1", // 占据剩余宽度
+                }}
+              >
+                {activeBetIndex + 1}/{sharedHabit.bets.length}
+              </span>
+              <TriangleButton direction="right" onClick={handleNextBet} style={{ textAlign: "right" }} />
+            </div>
+              {/* 第二行 */}
+              <div style={{ 
+              fontFamily: "Monsterrat",
+              color: "#263238",
+              fontWeight: "normal",
+              fontSize: "12px",
+              textAlign: "center", // 居中对齐
+              marginTop: "10px", // 调整距离 borderTop 的上边距
+              marginBottom: "0px", // 调整距离下一行的下边距
+              width: "100%", // 100%宽度
+            }}>
+              {/* 中间文本内容 */}
+              <div>
+                <span onClick={handleDownload} style={{ cursor: "pointer", fontWeight: 'bold', color: "#F75928", textDecoration: "underline" }}>下載</span>
+                圖片,並分享至
+                <a
+                  href="https://www.instagram.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span style={{ cursor: "pointer", fontWeight: 'bold', color: "#F75928", textDecoration: "underline" }}>IG</span>
+                </a>
+              </div>
+            </div>
           </footer>
+
+
         </Card>
       )}
     </Dialog>
