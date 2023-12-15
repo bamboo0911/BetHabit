@@ -8,7 +8,7 @@ export const clerkCreate = async (req, res) => {
   const data = req.body.data;
   const userId = data.id;
   const userName = data.username;
-  const lastLoginTime = data.last_sign_in_at;
+  const lastLoginTime = data.created_at;
 
   try {
     // Check if user already exists
